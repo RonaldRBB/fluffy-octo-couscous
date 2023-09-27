@@ -1,5 +1,5 @@
 """User class."""
-from model import Model
+from core.models.model import Model
 from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 
@@ -36,10 +36,3 @@ class User(Model):
         if not isinstance(value, str):
             raise ValueError("Email must be a string")
         self._email = value
-
-
-if __name__ == "__main__":
-    user = User()
-    user.username = "test"
-    user.email = "test@test.com"
-    user.set()

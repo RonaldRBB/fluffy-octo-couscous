@@ -1,11 +1,6 @@
 """model class."""
-from sqlalchemy import create_engine
 from sqlalchemy import exc as sqlalchemy_exc
-from sqlalchemy.orm import declarative_base, sessionmaker
-
-engine = create_engine()
-Base = declarative_base()
-Session = sessionmaker(engine)
+from core.config import Base, Session
 
 
 class Model(Base):
@@ -27,7 +22,3 @@ class Model(Base):
             raise error
         finally:
             session.close()
-
-
-if __name__ == "__main__":
-    Base.metadata.create_all(engine)
