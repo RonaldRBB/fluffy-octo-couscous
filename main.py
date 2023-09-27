@@ -1,5 +1,7 @@
-import requests
+"""Main."""
+# import requests
 from flask import Flask, jsonify, request
+from core.models.configuration import Configuration
 
 webhook_url = None
 token = None
@@ -10,10 +12,11 @@ app = Flask(__name__)
 @app.route("/webhook", methods=["POST"])
 def set_webhook():
     webhook_url = request.json.get("url")
-    print(f"URL: {webhook_url}")
-    # telegram_api = "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/setWebhook"
-    # response = requests.post(telegram_api, data={"url": url})
-    return jsonify("eres un puto crack")
+    configuration = Configuration()
+    configuration.name = "webhook_url"
+    configuration.value = {"url": webhook_url}
+    configuration.description = "Webhook URL"
+    configuration.set()
 
 
 @app.route("/webhook", methods=["GET"])
