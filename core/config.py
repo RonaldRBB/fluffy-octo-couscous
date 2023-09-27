@@ -1,5 +1,5 @@
 from decouple import config
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Sequence
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_CONNECTION = config("DB_CONNECTION")
@@ -13,3 +13,4 @@ engine = create_engine(
 )
 Base = declarative_base()
 Session = sessionmaker(engine)
+shared_sequence = Sequence("shared_sequence")

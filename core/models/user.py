@@ -1,14 +1,17 @@
 """User class."""
-from core.models.model import Model
 from datetime import datetime
+
 from sqlalchemy import Column, DateTime, Integer, String
+
+from core.config import shared_sequence
+from core.models.model import Model
 
 
 class User(Model):
     """User class."""
 
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, shared_sequence, primary_key=True)
     _username = Column("username", String(50), nullable=False, unique=True)
     _email = Column("email", String(50), nullable=False, unique=True)
     _created_at = Column("created_at", DateTime, default=datetime.now())

@@ -1,5 +1,6 @@
 """model class."""
 from sqlalchemy import exc as sqlalchemy_exc
+
 from core.config import Base, Session
 
 
