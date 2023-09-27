@@ -1,3 +1,4 @@
+"""Configuration."""
 from decouple import config
 from sqlalchemy import create_engine, Sequence
 from sqlalchemy.orm import declarative_base, sessionmaker

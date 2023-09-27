@@ -6,18 +6,29 @@ from core.models.user import User
 from core.models.configuration import Configuration
 
 
-def main():
-    Base.metadata.create_all(engine)
+def test_user(value="test"):
+    """Test user."""
     user = User()
-    name = str(time.time())
-    user.username = name
-    user.email = f"{name}@test.com"
+    user.username = value
+    user.email = f"{value}@test.com"
     user.set()
+
+
+def test_configuration(value="test"):
+    """Test configuration."""
     configuration = Configuration()
-    configuration.name = name
-    configuration.value = {name: name}
-    configuration.description = name
+    configuration.name = value
+    configuration.value = {"value": value}
+    configuration.description = value
     configuration.set()
+
+
+def main():
+    """Main function."""
+    Base.metadata.create_all(engine)
+    test_value = str(time.time())
+    test_user(test_value)
+    test_configuration(test_value)
 
 
 if __name__ == "__main__":

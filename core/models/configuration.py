@@ -1,3 +1,4 @@
+"""Configuration model."""
 from sqlalchemy import JSON, Column, Integer, String, Text
 
 from core.config import shared_sequence
