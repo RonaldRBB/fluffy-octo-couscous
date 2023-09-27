@@ -1,16 +1,14 @@
 """Main."""
 # import requests
 from flask import Flask, jsonify, request
-from core.models.configuration import Configuration
-
-webhook_url = None
-token = None
+from app.models.configuration import Configuration
 
 app = Flask(__name__)
 
 
 @app.route("/webhook", methods=["POST"])
 def set_webhook():
+    """Set webhook."""
     webhook_url = request.json.get("url")
     configuration = Configuration()
     configuration.name = "webhook_url"
@@ -21,11 +19,13 @@ def set_webhook():
 
 @app.route("/webhook", methods=["GET"])
 def get_webhook():
-    return jsonify({"url": webhook_url})
+    """Get webhook."""
+    return jsonify({"url": "test"})
 
 
 @app.route("/")
 def hello_world():
+    """Hello world."""
     return jsonify({"text": "Hello, World!"})
 
 

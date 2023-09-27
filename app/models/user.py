@@ -3,8 +3,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String
 
-from core.config import shared_sequence
-from core.models.model import Model
+from app.models.model import Model
+from config.config import shared_sequence
 
 
 class User(Model):

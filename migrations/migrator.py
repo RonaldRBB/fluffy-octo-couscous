@@ -1,9 +1,9 @@
 """Migrator for the database."""
 import time
 
-from core.config import Base, engine
-from core.models.user import User
-from core.models.configuration import Configuration
+from app.models.configuration import Configuration
+from app.models.user import User
+from config.config import Base, engine
 
 
 def test_user(value="test"):

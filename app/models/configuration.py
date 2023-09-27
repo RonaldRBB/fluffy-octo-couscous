@@ -1,8 +1,8 @@
 """Configuration model."""
 from sqlalchemy import JSON, Column, Integer, String, Text
 
-from core.config import shared_sequence
-from core.models.model import Model
+from app.models.model import Model
+from config.config import shared_sequence
 
 
 class Configuration(Model):
