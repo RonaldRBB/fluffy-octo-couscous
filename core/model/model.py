@@ -1,0 +1,33 @@
+"""model class."""
+from sqlalchemy import create_engine
+from sqlalchemy import exc as sqlalchemy_exc
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+engine = create_engine()
+Base = declarative_base()
+Session = sessionmaker(engine)
+
+
+class Model(Base):
+    """User class."""
+
+    __abstract__ = True
+
+    def set(self):
+        """Save user in database."""
+        session = Session()
+        try:
+            session.add(self)
+            session.commit()
+        except sqlalchemy_exc.IntegrityError as error:
+            session.rollback()
+            raise error
+        except Exception as error:
+            session.rollback()
+            raise error
+        finally:
+            session.close()
+
+
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)
