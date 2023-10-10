@@ -10,32 +10,28 @@ from config.config import shared_sequence
 class User(Model):
     """User class."""
 
-    __tablename__ = "users"
+    __tablename__ = f"{Model._prefix}users"
     id = Column(Integer, shared_sequence, primary_key=True)
     _username = Column("username", String(50), nullable=False, unique=True)
     _email = Column("email", String(50), nullable=False, unique=True)
-    _created_at = Column("created_at", DateTime, default=datetime.now())
+    _gen_date = Column("gen_date", DateTime, default=datetime.now())
 
     @property
-    def username(self):
+    def username(self) -> Column[str] | str:
         """Get username."""
         return self._username
 
     @username.setter
-    def username(self, value):
+    def username(self, value: Column[str] | str) -> None:
         """Set username."""
-        if not isinstance(value, str):
-            raise ValueError("Username must be a string")
         self._username = value
 
     @property
-    def email(self):
+    def email(self) -> Column[str] | str:
         """Get email."""
         return self._email
 
     @email.setter
-    def email(self, value):
+    def email(self, value: str) -> None:
         """Set email."""
-        if not isinstance(value, str):
-            raise ValueError("Email must be a string")
         self._email = value

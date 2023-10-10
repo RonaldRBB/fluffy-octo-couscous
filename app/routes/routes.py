@@ -1,32 +1,18 @@
 """Main."""
 # import requests
-from flask import Flask, jsonify, request
-from app.models.configuration import Configuration
+from flask import Flask, jsonify
+
+from app.controllers.webhook import Webhook
 
 
-def setup_routes(app: Flask):
+def setup_routes(app: Flask) -> Flask:
     """Set routes."""
-    app.add_url_rule("/webhook", "set_webhook", set_webhook, methods=["POST"])
-    app.add_url_rule("/webhook", "get_webhook", get_webhook, methods=["GET"])
+    app.add_url_rule("/webhook", "set_webhook", Webhook.set, methods=["POST"])
+    app.add_url_rule("/webhook", "get_webhook", Webhook.get, methods=["GET"])
     app.add_url_rule("/", "hello_world", hello_world, methods=["GET"])
     return app
 
 
-def set_webhook():
-    """Set webhook."""
-    webhook_url = request.json.get("url")
-    configuration = Configuration()
-    configuration.name = "webhook_url"
-    configuration.value = {"url": webhook_url}
-    configuration.description = "Webhook URL"
-    configuration.set()
-
-
-def get_webhook():
-    """Get webhook."""
-    return jsonify({"url": "test"})
-
-
-def hello_world():
+def hello_world() -> tuple[Flask.response_class, int]:
     """Hello world."""
-    return jsonify({"text": "Hello, World!"})
+    return jsonify({"text": "Marico el que lo lea!"}), 200
