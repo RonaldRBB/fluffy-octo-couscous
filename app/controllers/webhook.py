@@ -7,14 +7,14 @@ from config.config import Session
 class Webhook:
     """Webhook controller."""
     @staticmethod
-    def set() -> tuple[Flask.response_class, int]:
+    def set():
         """Set webhook."""
         if not request.json:
             return jsonify({"error": "No JSON data."}), 400
         if "url" not in request.json:
             return jsonify({"error": "No URL provided."}), 400
-        webhook_url: str = request.json.get("url")
-        configuration: Configuration = Configuration()
+        webhook_url = request.json.get("url")
+        configuration = Configuration()
         configuration.name = "webhook_url"
         configuration.value = {"url": webhook_url}
         configuration.description = "Telegram Webhook URL"
@@ -23,7 +23,7 @@ class Webhook:
         return jsonify({"message": "Webhook URL set."}), 200
 
     @staticmethod
-    def get() -> tuple[Flask.response_class, int]:
+    def get():
         """Get webhook."""
         session = Session()
         # configuration = (
@@ -33,7 +33,7 @@ class Webhook:
         # )
         # session.close()
         # return jsonify(configuration.value)
-        configuration: Configuration = Configuration()
+        configuration = Configuration()
         recordset = configuration.get()
         for record in recordset:
             # print(record)

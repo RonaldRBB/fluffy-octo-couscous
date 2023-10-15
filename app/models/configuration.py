@@ -1,48 +1,24 @@
 """Configuration model."""
-from typing import Any
 from datetime import datetime
-from sqlalchemy import JSON, Column, DateTime, Integer, String, Text
-from app.models.model import Model
-from config.config import shared_sequence
+
+from sqlalchemy import JSON, DateTime, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.models.user import User
+from config.config import Base
 
 
-class Configuration(Model):
-    """Configuration class."""
+class Configuration(Base):
+    """Configuration model."""
+    __tablename__ = "ofc_configuration"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
+    value: Mapped[str] = mapped_column(JSON, nullable=False)
+    gen_date: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow)
+    user_id: Mapped[int] = mapped_column(ForeignKey('ofc_user.id'))
+    username: Mapped[User] = relationship(back_populates="configurations")
 
-    __tablename__ = Model._prefix + "configuration"
-    id = Column(Integer, shared_sequence,
-                primary_key=True, autoincrement=True)
-    _name = Column("name", String(255), nullable=False, unique=True)
-    _value = Column("value", JSON)
-    _description = Column("description", Text)
-    _gen_date = Column("gen_date", DateTime, default=datetime.now())
-
-    @property
-    def name(self) -> Column[str] | str:
-        """Get name."""
-        return self._name
-
-    @name.setter
-    def name(self, value: str) -> None:
-        """Set name."""
-        self._name = value
-
-    @property
-    def value(self) -> Column[Any] | dict[str, Any]:
-        """Get value."""
-        return self._value
-
-    @value.setter
-    def value(self, value: dict[str, Any]) -> None:
-        """Set value."""
-        self._value = value
-
-    @property
-    def description(self) -> Column[str] | str:
-        """Get description."""
-        return self._description
-
-    @description.setter
-    def description(self, value: str) -> None:
-        """Set description."""
-        self._description = value
+    def __str__(self):
+        """String representation of the model."""
+        return f"<id={self.id}, name={self.name}, value={self.value}, user_id={self.user_id}, username={self.username}>"

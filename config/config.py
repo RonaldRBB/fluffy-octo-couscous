@@ -1,17 +1,27 @@
 """Configuration."""
 from decouple import config
-from sqlalchemy import create_engine, Sequence
-from sqlalchemy.orm import declarative_base, sessionmaker
-APP_PORT: int = config("APP_PORT")
-DB_CONNECTION: str = config("DB_CONNECTION")
-DB_HOST: str = config("DB_HOST")
-DB_PORT: int = config("DB_PORT")
-DB_DATABASE: str = config("DB_DATABASE")
-DB_USERNAME: str = config("DB_USERNAME")
-DB_PASSWORD: str = config("DB_PASSWORD")
-engine = create_engine(
-    f"{DB_CONNECTION}://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}"
-)
+from sqlalchemy import Engine, create_engine
+from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm.session import sessionmaker
+
+# APP
+# -----------------------------------------------------------------------------
+APP_PORT = config("APP_PORT", cast=int)
+DB_CONNECTION = config("DB_CONNECTION")
+# DB
+# -----------------------------------------------------------------------------
+DB_HOST = config("DB_HOST")
+DB_PORT = config("DB_PORT")
+DB_DATABASE = config("DB_DATABASE")
+DB_USERNAME = config("DB_USERNAME")
+DB_PASSWORD = config("DB_PASSWORD")
+# ORM
 Base = declarative_base()
-Session = sessionmaker(engine)
-shared_sequence = Sequence("shared_sequence")
+engine: Engine = create_engine(
+    f"{DB_CONNECTION}://"
+    f"{DB_USERNAME}:"
+    f"{DB_PASSWORD}@"
+    f"{DB_HOST}/"
+    f"{DB_DATABASE}", echo=False)
+print("-" * 80)
+session = sessionmaker(engine)()

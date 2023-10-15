@@ -1,37 +1,21 @@
-"""User class."""
+"""User model."""""
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.model import Model
-from config.config import shared_sequence
+from config.config import Base
 
 
-class User(Model):
-    """User class."""
+class User(Base):
+    """User model."""
+    __tablename__ = "ofc_user"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    configurations: Mapped[str] = relationship("Configuration", back_populates="username")
+    gen_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
-    __tablename__ = f"{Model._prefix}users"
-    id = Column(Integer, shared_sequence, primary_key=True)
-    _username = Column("username", String(50), nullable=False, unique=True)
-    _email = Column("email", String(50), nullable=False, unique=True)
-    _gen_date = Column("gen_date", DateTime, default=datetime.now())
-
-    @property
-    def username(self) -> Column[str] | str:
-        """Get username."""
-        return self._username
-
-    @username.setter
-    def username(self, value: Column[str] | str) -> None:
-        """Set username."""
-        self._username = value
-
-    @property
-    def email(self) -> Column[str] | str:
-        """Get email."""
-        return self._email
-
-    @email.setter
-    def email(self, value: str) -> None:
-        """Set email."""
-        self._email = value
+    def __str__(self):
+        """String representation of the model."""
+        return f"<id={self.id}, username={self.username}, email={self.email}>"

@@ -2,7 +2,7 @@
 from migrations.migrator import main as migrate
 
 
-def main() -> None:
+def main():
     """Main function."""
     migrate()
 
