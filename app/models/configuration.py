@@ -5,7 +5,7 @@ from sqlalchemy import JSON, DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.user import User
-from config.config import Base
+from config import Base
 
 
 class Configuration(Base):

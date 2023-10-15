@@ -1,7 +1,7 @@
 """Webhook controller."""
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from app.models.configuration import Configuration
-from config.config import Session
+from config import session
 
 
 class Webhook:

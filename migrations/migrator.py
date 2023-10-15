@@ -7,7 +7,7 @@ from sqlalchemy import text
 from app.helpers.random_person import Person
 from app.models.configuration import Configuration
 from app.models.user import User
-from config.config import Base, engine, session
+from config import Base, engine, session
 
 
 def test_connection():
