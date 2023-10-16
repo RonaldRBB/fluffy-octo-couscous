@@ -1,11 +1,11 @@
 """Main."""
 # import requests
-from flask import Flask, jsonify
+from flask import jsonify
 
 from app.controllers.webhook import Webhook
 
 
-def setup_routes(app: Flask) -> Flask:
+def setup_routes(app):
     """Set routes."""
     app.add_url_rule("/webhook", "set_webhook", Webhook.set, methods=["POST"])
     app.add_url_rule("/webhook", "get_webhook", Webhook.get, methods=["GET"])
@@ -13,6 +13,6 @@ def setup_routes(app: Flask) -> Flask:
     return app
 
 
-def hello_world() -> tuple[Flask.response_class, int]:
+def hello_world():
     """Hello world."""
-    return jsonify({"text": "Marico el que lo lea!"}), 200
+    return jsonify({"text": "Hello World!"}), 200

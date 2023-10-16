@@ -25,3 +25,9 @@ engine: Engine = create_engine(
     f"{DB_DATABASE}", echo=False)
 print("-" * 80)
 session = sessionmaker(engine)()
+# USER 1
+# -----------------------------------------------------------------------------
+USER_1_USERNAME = config("USER_1_USERNAME")
+USER_1_FIRST_NAME = config("USER_1_FIRSTNAME")
+USER_1_LAST_NAME = config("USER_1_LASTNAME")
+USER_1_EMAIL = config("USER_1_EMAIL")

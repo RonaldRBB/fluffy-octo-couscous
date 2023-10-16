@@ -1,13 +1,12 @@
 """Migration script for the database."""
-import random
-
 import sqlalchemy
 from sqlalchemy import text
 
 from app.helpers.random_person import Person
 from app.models.configuration import Configuration
 from app.models.user import User
-from config import Base, engine, session
+from config import Base, engine, session, USER_1_FIRST_NAME, USER_1_LAST_NAME, \
+    USER_1_EMAIL, USER_1_USERNAME
 
 
 def test_connection():
@@ -17,22 +16,36 @@ def test_connection():
         print(result.all())
 
 
-def create_tables():
+def create_tables(drop_all=True):
     """Create tables."""
+    if drop_all:
+        Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
 
 def create_user():
     """Practice using the connection."""
-    person = Person()
-    user = User(username=person.username, email=person.email)
+    user = session.query(User).filter_by(id=1).first()
+    if user:
+        person = Person()
+        user = User(username=person.username, first_name=person.first_name,
+                    last_name=person.last_name, email=person.email)
+    else:
+        user = User(username=USER_1_USERNAME, first_name=USER_1_FIRST_NAME,
+                    last_name=USER_1_LAST_NAME, email=USER_1_EMAIL)
     session.add(user)
 
 
-def create_configuration(value="testt"):
+def get_last_user():
+    """Practice using the connection."""
+    user = session.query(User).order_by(sqlalchemy.desc(User.id)).first()
+    print(user)
+
+
+def create_configuration(value="test"):
     """Practice using the connection."""
     configuration = Configuration(
-        name=value, value={"test": value}, user_id=random.randint(1, 10))
+        name=value, value={"test": value}, user_id=1)
     session.add(configuration)
 
 
@@ -45,10 +58,11 @@ def get_last_configuration():
 
 def main():
     """Main entry point of the app."""
-    # test_connection()
-    # create_tables()
-    # create_user()
-    # create_configuration()
+    test_connection()
+    create_tables(drop_all=False)
+    create_user()
+    create_configuration()
+    get_last_user()
     get_last_configuration()
     session.commit()
 

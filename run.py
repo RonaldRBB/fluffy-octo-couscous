@@ -1,5 +1,5 @@
 """Main."""
-from app.app import create_app
+from app import create_app
 from config import APP_PORT
 
 if __name__ == "__main__":
