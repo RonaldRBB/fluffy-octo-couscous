@@ -5,8 +5,15 @@ from sqlalchemy import text
 from app.helpers.random_person import Person
 from app.models.configuration import Configuration
 from app.models.user import User
-from config import Base, engine, session, USER_1_FIRST_NAME, USER_1_LAST_NAME, \
-    USER_1_EMAIL, USER_1_USERNAME
+from config import (
+    USER_1_EMAIL,
+    USER_1_FIRST_NAME,
+    USER_1_LAST_NAME,
+    USER_1_USERNAME,
+    Base,
+    engine,
+    session,
+)
 
 
 def test_connection():
