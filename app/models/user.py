@@ -13,12 +13,12 @@ from app.models.configuration import Configuration
 from app.models.heartrate import Heartrate
 from app.models.sport import Sport
 from app.models.user_health import UserHealth
-from config import Base
+from config import Base, DB_PREFIX
 
 
 class User(Base):
     """User model."""
-    __tablename__ = "foc_users"
+    __tablename__ = f"{DB_PREFIX}_users"
     id: Mapped[int] = mapped_column(primary_key=True)
     _username: Mapped[str] = mapped_column(
         "username", String(30), nullable=False, unique=True)
@@ -50,8 +50,8 @@ class User(Base):
                 f"first_name = {self.first_name}, "
                 f"last_name = {self.last_name}, "
                 f"email = {self.email}, "
-                f"configurations = {len(self.configurations)}, "
                 f"user_health = {len(self.user_health)}, "
+                f"configurations = {len(self.configurations)}, "
                 f"activities = {len(self.activities)}, "
                 f"body = {len(self.body)}, "
                 f"heartrate = {len(self.heartrate)}, "

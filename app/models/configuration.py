@@ -4,15 +4,15 @@ from datetime import datetime
 from sqlalchemy import JSON, DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
+from config import DB_PREFIX, Base
 
 
 class Configuration(Base):
     """Configuration model."""
-    __tablename__ = "foc_configurations"
+    __tablename__ = f"{DB_PREFIX}_configurations"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
-        "user_id", ForeignKey('foc_users.id'))
+        "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _name: Mapped[str] = mapped_column("name", String(30), nullable=False)
     _value: Mapped[str] = mapped_column("value", JSON, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(

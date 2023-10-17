@@ -1,27 +1,27 @@
 """Sport model."""
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Integer, Float
+from sqlalchemy import DateTime, Float, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
+from config import DB_PREFIX, Base
 
 
 class Sport(Base):
     """Sport model."""
-    __tablename__ = "foc_sports"
+    __tablename__ = f"{DB_PREFIX}_sport"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
-        "user_id", ForeignKey('foc_users.id'))
+        "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _type: Mapped[int] = mapped_column("type", Integer, nullable=False)
     _start_time: Mapped[datetime] = mapped_column(
         "start_time", DateTime, default=datetime.utcnow)
     _sport_time: Mapped[int] = mapped_column(
         "sport_time", Integer, nullable=False)
-    _max_pace: Mapped[float] = mapped_column("max_pace", Float, nullable=False)
-    _min_pace: Mapped[float] = mapped_column("min_pace", Float, nullable=False)
-    _avg_pace: Mapped[float] = mapped_column("avg_pace", Float, nullable=False)
-    _distance: Mapped[float] = mapped_column("distance", Float, nullable=False)
+    _max_pace: Mapped[float] = mapped_column("max_pace", Float)
+    _min_pace: Mapped[float] = mapped_column("min_pace", Float)
+    _avg_pace: Mapped[float] = mapped_column("avg_pace", Float)
+    _distance: Mapped[float] = mapped_column("distance", Float)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
     username: Mapped["User"] = relationship(back_populates="sport")
 

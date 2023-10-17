@@ -4,15 +4,15 @@ from datetime import datetime
 from sqlalchemy import DateTime, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
+from config import Base, DB_PREFIX
 
 
 class Activity(Base):
     """Activity model."""
-    __tablename__ = "foc_activities"
+    __tablename__ = f"{DB_PREFIX}_activities"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
-        "user_id", ForeignKey('foc_users.id'))
+        "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _steps: Mapped[int] = mapped_column("steps", Integer, nullable=False)
@@ -20,7 +20,8 @@ class Activity(Base):
     _run_distance: Mapped[int] = mapped_column(
         "run_distance", Integer, nullable=False)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
-    username: Mapped["User"] = relationship("User", back_populates="activities")
+    username: Mapped["User"] = relationship(
+        "User", back_populates="activities")
 
     def __str__(self):
         """String representation of the model."""

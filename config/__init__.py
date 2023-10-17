@@ -15,6 +15,7 @@ DB_PORT = config("DB_PORT")
 DB_DATABASE = config("DB_DATABASE")
 DB_USERNAME = config("DB_USERNAME")
 DB_PASSWORD = config("DB_PASSWORD")
+DB_PREFIX = config("DB_PREFIX")
 # ORM
 Base = declarative_base()
 engine: Engine = create_engine(

@@ -4,15 +4,15 @@ from datetime import datetime
 from sqlalchemy import DateTime, Float, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
+from config import Base, DB_PREFIX
 
 
 class Body(Base):
     """Body model."""
-    __tablename__ = "foc_bodys"
+    __tablename__ = f"{DB_PREFIX}_bodys"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
-        "user_id", ForeignKey('foc_users.id'))
+        "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _weight: Mapped[float] = mapped_column("weight", Float, nullable=False)

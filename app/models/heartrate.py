@@ -4,16 +4,16 @@ from datetime import datetime
 from sqlalchemy import DateTime, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
+from config import DB_PREFIX, Base
 
 
 class Heartrate(Base):
     """Heartrate model."""
     # date,user_id,heartRate
-    __tablename__ = "foc_heartrates"
+    __tablename__ = f"{DB_PREFIX}_heartrates"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
-        "user_id", ForeignKey('foc_users.id'))
+        "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _heart_rate: Mapped[int] = mapped_column(

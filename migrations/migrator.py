@@ -116,7 +116,7 @@ def main():
     # get_last_body()
     # get_last_heartrate()
     # get_last_sport()
-    get_last_user_health()
+    # get_last_user_health()
     print("-"*100)
     session.commit()
     session.close()

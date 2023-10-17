@@ -1,22 +1,22 @@
 """User health model."""
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base
-
-# user_id, gender, height
+from config import DB_PREFIX, Base
 
 
 class UserHealth(Base):
     """User health model."""
-    __tablename__ = "foc_user_health"
+    __tablename__ = f"{DB_PREFIX}_users_health"
     id: Mapped[int] = mapped_column(primary_key=True)
-    _user_id: Mapped[int] = mapped_column(
-        "user_id", Integer, ForeignKey("foc_users.id"), nullable=False)
+    _user_id: Mapped[int] = mapped_column("user_id", Integer, ForeignKey(
+        f"{DB_PREFIX}_users.id"), unique=True, nullable=False)
     _gender: Mapped[str] = mapped_column(
         "gender", String(30), nullable=False)
+    _birth_date: Mapped[Date] = mapped_column(
+        "birth_date", Date, nullable=False)
     _height: Mapped[float] = mapped_column(
         "height", Float, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(
@@ -46,7 +46,18 @@ class UserHealth(Base):
 
     @gender.setter
     def gender(self, value: str) -> None:
-        self._gender = value
+        if value.lower() not in ["male", "female"]:
+            raise ValueError("Gender must be either 'male' or 'female'")
+        self._gender = value.lower()
+
+    @property
+    def birth_date(self) -> datetime:
+        """Birth date."""
+        return self._birth_date
+
+    @birth_date.setter
+    def birth_date(self, value: datetime) -> None:
+        self._birth_date = value
 
     @property
     def height(self) -> float:
