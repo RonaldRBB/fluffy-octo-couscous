@@ -13,7 +13,8 @@ class Sport(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
-    _type: Mapped[int] = mapped_column("type", Integer, nullable=False)
+    _type_id: Mapped[int] = mapped_column("type_id", ForeignKey(
+        f"{DB_PREFIX}_sport_type.id"))
     _start_time: Mapped[datetime] = mapped_column(
         "start_time", DateTime, default=datetime.utcnow)
     _sport_time: Mapped[int] = mapped_column(
@@ -23,6 +24,8 @@ class Sport(Base):
     _avg_pace: Mapped[float] = mapped_column("avg_pace", Float)
     _distance: Mapped[float] = mapped_column("distance", Float)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
+    excersice: Mapped["Excersice"] = relationship(
+        "Excersice", back_populates="sport")
     username: Mapped["User"] = relationship(back_populates="sport")
 
     def __str__(self):
@@ -36,6 +39,7 @@ class Sport(Base):
             f"avg_pace = {self.avg_pace}, "
             f"distance = {self.distance}, "
             f"calories = {self.calories}, "
+            f"excersice = {self.excersice}, "
             f"user_id = {self.user_id}, "
             f"user = {self.username}>"
         )
