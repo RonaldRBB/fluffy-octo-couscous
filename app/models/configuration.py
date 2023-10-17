@@ -4,7 +4,6 @@ from datetime import datetime
 from sqlalchemy import JSON, DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.user import User
 from config import Base
 
 
@@ -18,7 +17,7 @@ class Configuration(Base):
     _value: Mapped[str] = mapped_column("value", JSON, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
-    username: Mapped[User] = relationship(back_populates="configurations")
+    username: Mapped["User"] = relationship(back_populates="configurations")
 
     def __str__(self):
         """String representation of the model."""

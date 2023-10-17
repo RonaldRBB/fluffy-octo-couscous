@@ -3,7 +3,11 @@ import sqlalchemy
 from sqlalchemy import text
 
 from app.helpers.random_person import Person
+from app.models.activity import Activity
+from app.models.body import Body
 from app.models.configuration import Configuration
+from app.models.heartrate import Heartrate
+from app.models.sport import Sport
 from app.models.user import User
 from config import (
     USER_1_EMAIL,
@@ -19,7 +23,7 @@ from config import (
 def test_connection():
     """Test the connection to the database."""
     with engine.connect() as conn:
-        result = conn.execute(text("select 'hello world'"))
+        result = conn.execute(text("select 'connection successful'"))
         print(result.all())
 
 
@@ -43,17 +47,17 @@ def create_user():
     session.add(user)
 
 
-def get_last_user():
-    """Practice using the connection."""
-    user = session.query(User).order_by(sqlalchemy.desc(User.id)).first()
-    print(user)
-
-
 def create_configuration(value="test"):
     """Practice using the connection."""
     configuration = Configuration(
         name=value, value={"test": value}, user_id=1)
     session.add(configuration)
+
+
+def get_last_user():
+    """Practice using the connection."""
+    user = session.query(User).order_by(sqlalchemy.asc(User.id)).first()
+    print(user)
 
 
 def get_last_configuration():
@@ -63,15 +67,49 @@ def get_last_configuration():
     print(configuration)
 
 
+def get_last_activity():
+    """Practice using the connection."""
+    activity = session.query(Activity).order_by(
+        sqlalchemy.desc(Activity.id)).first()
+    print(activity)
+
+
+def get_last_body():
+    """Practice using the connection."""
+    body = session.query(Body).order_by(
+        sqlalchemy.desc(Body.id)).first()
+    print(body)
+
+
+def get_last_heartrate():
+    """Practice using the connection."""
+    heartrate = session.query(Heartrate).order_by(
+        sqlalchemy.desc(Heartrate.id)).first()
+    print(heartrate)
+
+
+def get_last_sport():
+    """Practice using the connection."""
+    sport = session.query(Sport).order_by(
+        sqlalchemy.desc(Sport.id)).first()
+    print(sport)
+
+
 def main():
     """Main entry point of the app."""
     test_connection()
     create_tables(drop_all=False)
-    create_user()
-    create_configuration()
+    # create_user()
+    # create_configuration()
     get_last_user()
-    get_last_configuration()
+    print("-"*100)
+    # get_last_configuration()
+    # get_last_activity()
+    # get_last_body()
+    # get_last_heartrate()
+    get_last_sport()
     session.commit()
+    session.close()
 
 
 if __name__ == "__main__":

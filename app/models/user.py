@@ -7,9 +7,12 @@ from typing import List
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.activity import Activity
+from app.models.body import Body
+from app.models.configuration import Configuration
+from app.models.heartrate import Heartrate
+from app.models.sport import Sport
 from config import Base
-
-# from app.models.configuration import Configuration
 
 
 class User(Base):
@@ -26,16 +29,30 @@ class User(Base):
         "email", String(50), nullable=False, unique=True)
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
-    configurations: Mapped[List["Configuration"]] = relationship(
+    configurations: Mapped[List[Configuration]] = relationship(
         "Configuration", back_populates="username")
+    activities: Mapped[List[Activity]] = relationship(
+        "Activity", back_populates="username")
+    body: Mapped[List[Body]] = relationship(
+        "Body", back_populates="username")
+    heartrate: Mapped[List[Heartrate]] = relationship(
+        "Heartrate", back_populates="username")
+    sport: Mapped[List[Sport]] = relationship(
+        "Sport", back_populates="username")
 
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
                 f"username = {self.username}, "
+                f"first_name = {self.first_name}, "
+                f"last_name = {self.last_name}, "
                 f"email = {self.email}, "
-                f"gen_date = {self.gen_date}, "
-                f"configurations = {len(self.configurations)}>")
+                f"activities = {len(self.activities)}, "
+                f"body = {len(self.body)}, "
+                f"heartrate = {len(self.heartrate)}, "
+                f"sport = {len(self.sport)}, "
+                f"configurations = {len(self.configurations)}, "
+                f"gen_date = {self.gen_date}>")
 
     @property
     def username(self) -> str:
