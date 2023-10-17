@@ -9,6 +9,7 @@ from app.models.configuration import Configuration
 from app.models.heartrate import Heartrate
 from app.models.sport import Sport
 from app.models.user import User
+from app.models.user_health import UserHealth
 from config import (
     USER_1_EMAIL,
     USER_1_FIRST_NAME,
@@ -95,6 +96,13 @@ def get_last_sport():
     print(sport)
 
 
+def get_last_user_health():
+    """Practice using the connection."""
+    user_health = session.query(UserHealth).order_by(
+        sqlalchemy.desc(UserHealth.id)).first()
+    print(user_health)
+
+
 def main():
     """Main entry point of the app."""
     test_connection()
@@ -107,7 +115,9 @@ def main():
     # get_last_activity()
     # get_last_body()
     # get_last_heartrate()
-    get_last_sport()
+    # get_last_sport()
+    get_last_user_health()
+    print("-"*100)
     session.commit()
     session.close()
 

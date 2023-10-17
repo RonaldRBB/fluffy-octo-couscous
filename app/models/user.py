@@ -12,6 +12,7 @@ from app.models.body import Body
 from app.models.configuration import Configuration
 from app.models.heartrate import Heartrate
 from app.models.sport import Sport
+from app.models.user_health import UserHealth
 from config import Base
 
 
@@ -31,6 +32,8 @@ class User(Base):
         "gen_date", DateTime, default=datetime.utcnow)
     configurations: Mapped[List[Configuration]] = relationship(
         "Configuration", back_populates="username")
+    user_health: Mapped[List[UserHealth]] = relationship(
+        "UserHealth", back_populates="user")
     activities: Mapped[List[Activity]] = relationship(
         "Activity", back_populates="username")
     body: Mapped[List[Body]] = relationship(
@@ -47,11 +50,12 @@ class User(Base):
                 f"first_name = {self.first_name}, "
                 f"last_name = {self.last_name}, "
                 f"email = {self.email}, "
+                f"configurations = {len(self.configurations)}, "
+                f"user_health = {len(self.user_health)}, "
                 f"activities = {len(self.activities)}, "
                 f"body = {len(self.body)}, "
                 f"heartrate = {len(self.heartrate)}, "
                 f"sport = {len(self.sport)}, "
-                f"configurations = {len(self.configurations)}, "
                 f"gen_date = {self.gen_date}>")
 
     @property

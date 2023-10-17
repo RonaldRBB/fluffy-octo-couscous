@@ -1,7 +1,7 @@
 """Body model."""
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, Integer, Float
+from sqlalchemy import DateTime, Float, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from config import Base
