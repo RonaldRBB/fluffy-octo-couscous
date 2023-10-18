@@ -12,13 +12,11 @@ class User:
     def set():
         """Set User."""
         data = request.get_json()
-        user = UserModel(
-            username=data["username"],
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            email=data["email"]
-        )
+        # call validate
+        if User.validate(data) is False:
+            return jsonify("¡Datos incompletos!"), 400
         try:
+            user = UserModel(*data.values())
             session.add(user)
             session.commit()
             return jsonify("¡Usuario Creado!"), 200
@@ -28,6 +26,15 @@ class User:
         except Exception:
             session.rollback()
             return jsonify("¡Oops! Algo paso!"), 500
+
+    @staticmethod
+    def validate(data):
+        """Validate data."""
+        array_data = ["username", "first_name", "last_name", "email"]
+        for item in array_data:
+            if item not in data:
+                return False
+        return True
 
     @staticmethod
     def get(uid):
