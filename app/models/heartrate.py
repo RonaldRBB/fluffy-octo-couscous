@@ -18,7 +18,7 @@ class Heartrate(Base):
         "date", DateTime, default=datetime.utcnow)
     _heart_rate: Mapped[int] = mapped_column(
         "heart_rate", Integer, nullable=False)
-    username: Mapped["User"] = relationship(back_populates="heartrate")
+    username: Mapped["User"] = relationship("User", back_populates="heartrate")
 
     def __str__(self):
         """String representation of the model."""

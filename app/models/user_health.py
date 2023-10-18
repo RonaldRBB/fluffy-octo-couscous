@@ -21,7 +21,7 @@ class UserHealth(Base):
         "height", Float, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
-    user: Mapped["User"] = relationship(back_populates="user_health")
+    user: Mapped["User"] = relationship("User", back_populates="user_health")
 
     def __str__(self):
         return (f"<id = {self.id}, "

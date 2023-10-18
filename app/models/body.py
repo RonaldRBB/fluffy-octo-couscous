@@ -16,7 +16,7 @@ class Body(Base):
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _weight: Mapped[float] = mapped_column("weight", Float, nullable=False)
-    username: Mapped["User"] = relationship(back_populates="body")
+    username: Mapped["User"] = relationship("User", back_populates="body")
 
     def __str__(self):
         """String representation of the model."""

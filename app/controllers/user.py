@@ -1,4 +1,6 @@
 """Webhook controller."""
+import json
+
 from flask import jsonify, request
 
 from app.models.user import User as UserModel
@@ -11,7 +13,6 @@ class User:
     def set():
         """Set User."""
         data = request.get_json()
-        # id, username, first_name, last_name, email, gen_date
         user = UserModel(
             username=data["username"],
             first_name=data["first_name"],
@@ -20,5 +21,14 @@ class User:
         )
         session.add(user)
         session.commit()
-        session.close()
         return jsonify({"text": "User created!"}), 200
+
+    @staticmethod
+    def get():
+        """Get User."""
+        data = request.get_json()
+        user = session.query(UserModel).filter_by(id=data["id"]).first()
+        return jsonify(user.get_dict()), 200
+
+
+session.close()

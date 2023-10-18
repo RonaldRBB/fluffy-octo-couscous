@@ -58,6 +58,23 @@ class User(Base):
                 f"sport = {len(self.sport)}, "
                 f"gen_date = {self.gen_date}>")
 
+    def get_dict(self):
+        """JSON representation of the model."""
+        return {
+            "id": self.id,
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            # "user_health": len(self.user_health),
+            # "configurations": len(self.configurations),
+            # "activities": len(self.activities),
+            # "body": len(self.body),
+            # "heartrate": len(self.heartrate),
+            # "sport": len(self.sport),
+            "gen_date": self.gen_date
+        }
+
     @property
     def username(self) -> str:
         """Username."""

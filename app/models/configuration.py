@@ -17,7 +17,8 @@ class Configuration(Base):
     _value: Mapped[str] = mapped_column("value", JSON, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
-    username: Mapped["User"] = relationship(back_populates="configurations")
+    username: Mapped["User"] = relationship(
+        "User", back_populates="configurations")
 
     def __str__(self):
         """String representation of the model."""
