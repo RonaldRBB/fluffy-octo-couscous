@@ -1,5 +1,6 @@
 """App module"""
 from flask import Flask
+
 from app.routes.routes import setup_routes
 
 

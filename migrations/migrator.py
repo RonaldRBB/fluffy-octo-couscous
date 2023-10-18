@@ -2,7 +2,6 @@
 import sqlalchemy
 from sqlalchemy import text
 
-from app.helpers.random_person import Person
 from app.models.activity import Activity
 from app.models.body import Body
 from app.models.configuration import Configuration
@@ -82,7 +81,7 @@ def get_last_user_health():
 def main():
     """Main entry point of the app."""
     test_connection()
-    create_tables(drop_all=False)
+    create_tables(drop_all=True)
     get_last_user()
     print("-"*100)
     # get_last_configuration()

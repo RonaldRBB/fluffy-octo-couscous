@@ -13,7 +13,7 @@ from app.models.configuration import Configuration
 from app.models.heartrate import Heartrate
 from app.models.sport import Sport
 from app.models.user_health import UserHealth
-from config import Base, DB_PREFIX
+from config import DB_PREFIX, Base
 
 
 class User(Base):

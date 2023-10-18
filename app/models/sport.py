@@ -4,17 +4,18 @@ from datetime import datetime
 from sqlalchemy import DateTime, Float, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.exercise import Exercise
 from config import DB_PREFIX, Base
 
 
 class Sport(Base):
     """Sport model."""
-    __tablename__ = f"{DB_PREFIX}_sport"
+    __tablename__ = f"{DB_PREFIX}_sports"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _type_id: Mapped[int] = mapped_column("type_id", ForeignKey(
-        f"{DB_PREFIX}_sport_type.id"))
+        f"{DB_PREFIX}_exercises.id"))
     _start_time: Mapped[datetime] = mapped_column(
         "start_time", DateTime, default=datetime.utcnow)
     _sport_time: Mapped[int] = mapped_column(
@@ -24,14 +25,14 @@ class Sport(Base):
     _avg_pace: Mapped[float] = mapped_column("avg_pace", Float)
     _distance: Mapped[float] = mapped_column("distance", Float)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
-    excersice: Mapped["Excersice"] = relationship(
-        "Excersice", back_populates="sport")
+    exercise: Mapped[Exercise] = relationship(
+        "Exercise", back_populates="sport")
     username: Mapped["User"] = relationship(back_populates="sport")
 
     def __str__(self):
         return (
             f"<id = {self.id}, "
-            f"type = {self.type}, "
+            f"type = {self.type_id}, "
             f"start_time = {self.start_time}, "
             f"sport_time = {self.sport_time}, "
             f"max_pace = {self.max_pace}, "
@@ -39,7 +40,7 @@ class Sport(Base):
             f"avg_pace = {self.avg_pace}, "
             f"distance = {self.distance}, "
             f"calories = {self.calories}, "
-            f"excersice = {self.excersice}, "
+            f"exercise = {self.exercise}, "
             f"user_id = {self.user_id}, "
             f"user = {self.username}>"
         )
@@ -54,13 +55,13 @@ class Sport(Base):
         self._user_id = value
 
     @property
-    def type(self) -> int:
-        """Type."""
-        return self._type
+    def type_id(self) -> int:
+        """Type id."""
+        return self._type_id
 
-    @type.setter
-    def type(self, value: int) -> None:
-        self._type = value
+    @type_id.setter
+    def type_id(self, value: int) -> None:
+        self._type_id = value
 
     @property
     def start_time(self) -> datetime:

@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, Float, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from config import Base, DB_PREFIX
+from config import DB_PREFIX, Base
 
 
 class Body(Base):

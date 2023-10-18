@@ -6,7 +6,9 @@ from sqlalchemy.orm.session import sessionmaker
 
 # APP
 # -----------------------------------------------------------------------------
-APP_PORT = config("APP_PORT", cast=int)
+APP_HOST = config("APP_HOST")
+APP_PORT = config("APP_PORT")
+APP_DEBUG = config("APP_DEBUG")
 DB_CONNECTION = config("DB_CONNECTION")
 # DB
 # -----------------------------------------------------------------------------
