@@ -33,7 +33,7 @@ def create_tables(drop_all=True):
 def get_last_user():
     """Practice using the connection."""
     user = session.query(User).order_by(sqlalchemy.asc(User.id)).first()
-    print(user.get_dict())
+    print(user)
 
 
 def get_last_configuration():
@@ -81,7 +81,7 @@ def get_last_user_health():
 def main():
     """Main entry point of the app."""
     test_connection()
-    # create_tables(drop_all=True)
+    create_tables(drop_all=True)
     get_last_user()
     print("-"*100)
     # get_last_configuration()

@@ -60,10 +60,7 @@ class User:
             user = session.query(UserModel).filter_by(id=uid).first()
             if not user:
                 return jsonify("¡Usuario no existe!"), 404
-            user.username = data["username"]
-            user.first_name = data["first_name"]
-            user.last_name = data["last_name"]
-            user.email = data["email"]
+            self.load_user(data, user)
             session.commit()
             return jsonify("¡Usuario Actualizado!"), 200
         except IntegrityError:
@@ -94,12 +91,18 @@ class User:
                 return False
         return True
 
-    def load_user(self, data):
+    def load_user(self, data, user=None):
         """Load user."""
-        user = UserModel(
-            username=data["username"],
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            email=data["email"]
-        )
-        return user
+        if user is not None:
+            user.username = data["username"]
+            user.first_name = data["first_name"]
+            user.last_name = data["last_name"]
+            user.email = data["email"]
+        else:
+            user = UserModel(
+                username=data["username"],
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                email=data["email"]
+            )
+            return user
