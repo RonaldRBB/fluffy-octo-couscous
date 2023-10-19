@@ -13,107 +13,80 @@ class User(Controller):
 
     def create(self):
         """Create User."""
-        response = ApiResponse()
         data = request.get_json()
         if self.validate(data) is False:
-            response.message = "Incomplete data"
-            return jsonify(response.serialize()), 400
+            return self.handle_response("incomplete_data")
         try:
             user = self.load_user(data)
             session.add(user)
             session.commit()
-            response.success = True
-            response.message = "User created"
-            response.data = user.get_dict()
-            return jsonify(response.serialize()), 201
-        except IntegrityError:
+            return self.handle_response("created", user.get_dict())
+        except IntegrityError as error:
             session.rollback()
-            response.message = "User already exists"
-            return jsonify(response.serialize()), 400
-        except Exception:
+            print(f"ERROR: {error}!")
+            return self.handle_response("exists")
+        except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            response.message = "Oops! Something happened"
-            return jsonify(response.serialize()), 500
+            print(f"ERROR: {error}!")
+            return self.handle_response("error")
 
     def get(self, oid):
         """Show User."""
-        response = ApiResponse()
         try:
             user = session.query(UserModel).filter_by(id=oid).first()
             if not user:
-                response.message = "User does not exist"
-                return jsonify(response.serialize()), 404
-            response.success = True
-            response.message = "User found"
-            response.data = user.get_dict()
-            return jsonify(response.serialize()), 200
-        except Exception:
+                return self.handle_response("not_exist")
+            return self.handle_response("found", user.get_dict())
+        except Exception:  # pylint: disable=W0703
             session.rollback()
-            response.message = "Oops! Something happened"
-            return jsonify(response.serialize()), 500
+            return self.handle_response("error")
 
     def get_all(self):
         """Get User."""
-        response = ApiResponse()
         try:
             users = session.query(UserModel).all()
             array_users = []
+            if not users:
+                raise ValueError("No users found")
             for user in users:
                 array_users.append(user.get_dict())
-            response.success = True
-            response.message = "Users found"
-            response.data = array_users
-            return jsonify(response.serialize()), 200
-        except Exception:
+            return self.handle_response("found_all", None, array_users)
+        except Exception:  # pylint: disable=W0703
             session.rollback()
-            response.message = "Oops! Something happened"
-            return jsonify(response.serialize()), 500
+            return self.handle_response("error")
 
     def update(self, oid):
         """Update User."""
-        response = ApiResponse()
         data = request.get_json()
         # call validate
         if self.validate(data) is False:
-            response.message = "Incomplete data"
-            return jsonify(response.serialize()), 400
+            return self.handle_response("incomplete_data")
         try:
             user = session.query(UserModel).filter_by(id=oid).first()
             if not user:
-                response.message = "User does not exist"
-                return jsonify(response.serialize()), 404
+                return self.handle_response("not_exist")
             self.load_user(data, user)
             session.commit()
-            response.success = True
-            response.message = "User updated"
-            response.data = user.get_dict()
-            return jsonify(response.serialize()), 200
+            return self.handle_response("updated", user.get_dict())
         except IntegrityError:
             session.rollback()
-            response.message = "User already exists"
-            return jsonify(response.serialize()), 400
-        except Exception:
+            return self.handle_response("exists")
+        except Exception:  # pylint: disable=W0703
             session.rollback()
-            response.message = "Oops! Something happened"
-            return jsonify(response.serialize()), 500
+            return self.handle_response("error")
 
     def delete(self, oid):
         """Delete User."""
-        response = ApiResponse()
         try:
             user = session.query(UserModel).filter_by(id=oid).first()
             if not user:
-                response.message = "User does not exist"
-                return jsonify(response.serialize()), 404
+                return self.handle_response("not_exist")
             session.delete(user)
             session.commit()
-            response.success = True
-            response.message = "User deleted"
-            return jsonify(response.serialize()), 200
-        except Exception:
+            return self.handle_response("deleted")
+        except Exception:  # pylint: disable=W0703
             session.rollback()
-            response.message = "Oops! Something happened"
-            return jsonify(response.serialize()), 500
+            return self.handle_response("error")
 
     def validate(self, data):
         """Validate data."""
@@ -138,3 +111,75 @@ class User(Controller):
                 email=data["email"]
             )
             return user
+
+    def handle_response(self, code, user=None, array_users=None):
+        """Handle response."""
+        response = ApiResponse()
+        message = self.get_message_and_code(code)
+        response.success = message["succes"]
+        response.message = message["message"]
+        if user is not None:
+            response.data = user
+        elif array_users is not None:
+            response.data = array_users
+        return jsonify(response.serialize()), message["http_code"]
+
+    def get_message_and_code(self, code):
+        """Get message."""
+        message = {
+            "incomplete_data":
+            {
+                "succes": False,
+                "message": "Incomplete data",
+                "http_code": 400
+            },
+            "created":
+            {
+                "succes": True,
+                "message": "User created",
+                "http_code": 201
+            },
+            "found":
+            {
+                "succes": True,
+                "message": "User found",
+                "http_code": 200
+            },
+            "exists":
+            {
+                "succes": False,
+                "message": "User already exists",
+                "http_code": 400
+            },
+            "not_exist":
+            {
+                "succes": False,
+                "message": "User does not exist",
+                "http_code": 404
+            },
+            "updated":
+            {
+                "succes": True,
+                "message": "User updated",
+                "http_code": 200
+            },
+            "deleted":
+            {
+                "succes": True,
+                "message": "User deleted",
+                "http_code": 200
+            },
+            "found_all":
+            {
+                "succes": True,
+                "message": "Users found",
+                "http_code": 200
+            },
+            "error":
+            {
+                "succes": False,
+                "message": "Oops! Something happened",
+                "http_code": 500
+            }
+        }
+        return message[code]
