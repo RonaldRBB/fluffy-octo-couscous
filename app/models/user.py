@@ -43,13 +43,6 @@ class User(Base):
     sport: Mapped[List[Sport]] = relationship(
         "Sport", back_populates="username")
 
-    def __init__(self, username: str, first_name: str, last_name: str, email: str):
-        """Constructor."""
-        self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
@@ -73,12 +66,6 @@ class User(Base):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            # "user_health": len(self.user_health),
-            # "configurations": len(self.configurations),
-            # "activities": len(self.activities),
-            # "body": len(self.body),
-            # "heartrate": len(self.heartrate),
-            # "sport": len(self.sport),
             "gen_date": self.gen_date
         }
 

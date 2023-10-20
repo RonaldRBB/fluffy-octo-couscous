@@ -98,19 +98,13 @@ class User(Controller):
 
     def load_user(self, data, user=None):
         """Load user."""
-        if user is not None:
-            user.username = data["username"]
-            user.first_name = data["first_name"]
-            user.last_name = data["last_name"]
-            user.email = data["email"]
-        else:
-            user = UserModel(
-                username=data["username"],
-                first_name=data["first_name"],
-                last_name=data["last_name"],
-                email=data["email"]
-            )
-            return user
+        if not user:
+            user = UserModel()
+        user.username = data["username"]
+        user.first_name = data["first_name"]
+        user.last_name = data["last_name"]
+        user.email = data["email"]
+        return user
 
     def handle_response(self, code, user=None, array_users=None):
         """Handle response."""
