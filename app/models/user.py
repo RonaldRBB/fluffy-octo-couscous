@@ -58,7 +58,7 @@ class User(Base):
                 f"sport = {len(self.sport)}, "
                 f"gen_date = {self.gen_date}>")
 
-    def get_dict(self):
+    def get_dict(self, with_relation=False):
         """JSON representation of the model."""
         return {
             "id": self.id,

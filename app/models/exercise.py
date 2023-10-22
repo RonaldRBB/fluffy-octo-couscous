@@ -23,6 +23,16 @@ class Exercise(Base):
                 f"description = {self.description}, "
                 f"sport = {self.sport}>")
 
+    def get_dict(self, with_relation=False):
+        data = {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+        }
+        if with_relation:
+            data["sport"] = [sport.get_dict() for sport in self.sport]
+        return data
+
     @property
     def name(self) -> str:
         """Name."""

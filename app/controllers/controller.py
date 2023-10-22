@@ -55,7 +55,7 @@ class Controller:
             if not data:
                 raise ValueError(f"No {self.__class__.__name__}s found")
             for item in data:
-                array_data.append(item.get_dict(with_user=False))
+                array_data.append(item.get_dict(with_relation=False))
             return self.handle_response("found_all", array_data)
         except Exception as error:  # pylint: disable=W0703
             session.rollback()

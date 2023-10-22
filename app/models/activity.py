@@ -34,7 +34,7 @@ class Activity(Base):
                 f"user_id = {self.user_id}, "
                 f"user = {self.username}>")
 
-    def get_dict(self, with_user=True):
+    def get_dict(self, with_relation=True):
         """Get JSON representation of the model."""
         data = {
             "id": self.id,
@@ -45,7 +45,7 @@ class Activity(Base):
             "calories": self.calories,
             "user_id": self.user_id
         }
-        if with_user:
+        if with_relation:
             data["user"] = self.username.get_dict()
         return data
 
