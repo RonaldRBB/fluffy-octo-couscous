@@ -30,7 +30,7 @@ class Controller:
             elif "Cannot add or update a child row" in str(error):
                 return self.handle_response("foreign_key")
             return self.handle_response("error")
-        except Exception as error: # pylint: disable=W0703
+        except Exception as error:  # pylint: disable=W0703
             session.rollback()
             print(error)
             return self.handle_response("error")
@@ -42,7 +42,7 @@ class Controller:
             if not data:
                 return self.handle_response("not_exist")
             return self.handle_response("found", data.get_dict())
-        except Exception as error: # pylint: disable=W0703
+        except Exception as error:  # pylint: disable=W0703
             session.rollback()
             print(error)
             return self.handle_response("error")
@@ -55,9 +55,9 @@ class Controller:
             if not data:
                 raise ValueError(f"No {self.__class__.__name__}s found")
             for item in data:
-                array_data.append(item.get_dict())
+                array_data.append(item.get_dict(with_user=False))
             return self.handle_response("found_all", array_data)
-        except Exception as error: # pylint: disable=W0703
+        except Exception as error:  # pylint: disable=W0703
             session.rollback()
             print(error)
             return self.handle_response("error")
@@ -81,7 +81,7 @@ class Controller:
             elif "Cannot add or update a child row" in str(error):
                 return self.handle_response("foreign_key")
             return self.handle_response("error")
-        except Exception as error: # pylint: disable=W0703
+        except Exception as error:  # pylint: disable=W0703
             session.rollback()
             print(error)
             return self.handle_response("error")

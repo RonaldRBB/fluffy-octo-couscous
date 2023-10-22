@@ -34,18 +34,20 @@ class Activity(Base):
                 f"user_id = {self.user_id}, "
                 f"user = {self.username}>")
 
-    def get_dict(self):
+    def get_dict(self, with_user=True):
         """Get JSON representation of the model."""
-        return {
+        data = {
             "id": self.id,
             "date": self.date,
             "steps": self.steps,
             "distance": self.distance,
             "run_distance": self.run_distance,
             "calories": self.calories,
-            "user_id": self.user_id,
-            "user": self.username.get_dict()
+            "user_id": self.user_id
         }
+        if with_user:
+            data["user"] = self.username.get_dict()
+        return data
 
     @property
     def user_id(self) -> int:
