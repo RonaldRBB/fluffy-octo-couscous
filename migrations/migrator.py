@@ -2,13 +2,7 @@
 import sqlalchemy
 from sqlalchemy import text
 
-from app.models.activity import Activity
-from app.models.body import Body
-from app.models.configuration import Configuration
-from app.models.heartrate import Heartrate
-from app.models.sport import Sport
-from app.models.user import User
-from app.models.user_health import UserHealth
+from app.models import Activity, Body, Configuration, HeartRate, Sport, User, UserHealth
 from config import (
     Base,
     engine,
@@ -59,9 +53,9 @@ def get_last_body():
 
 def get_last_heartrate():
     """Practice using the connection."""
-    heartrate = session.query(Heartrate).order_by(
-        sqlalchemy.desc(Heartrate.id)).first()
-    print(heartrate)
+    heart_rate = session.query(HeartRate).order_by(
+        sqlalchemy.desc(HeartRate.id)).first()
+    print(heart_rate)
 
 
 def get_last_sport():
@@ -87,7 +81,7 @@ def main():
     # get_last_configuration()
     # get_last_activity()
     # get_last_body()
-    # get_last_heartrate()
+    get_last_heartrate()
     # get_last_sport()
     # get_last_user_health()
     print("-"*100)

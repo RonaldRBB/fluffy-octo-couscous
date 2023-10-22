@@ -1,6 +1,6 @@
 """Body controller."""
 from app.controllers.controller import Controller
-from app.models.body import Body as BodyModel
+from app.models import Body as BodyModel
 
 
 class Body(Controller):

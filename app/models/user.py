@@ -1,18 +1,11 @@
 """User model."""""
 from datetime import datetime
-
-# from app.models.configuration import Configuration
 from typing import List
 
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.activity import Activity
-from app.models.body import Body
-from app.models.configuration import Configuration
-from app.models.heartrate import Heartrate
-from app.models.sport import Sport
-from app.models.user_health import UserHealth
+from app.models import Activity, Body, Configuration, HeartRate, Sport, UserHealth
 from config import DB_PREFIX, Base
 
 
@@ -38,8 +31,8 @@ class User(Base):
         "Activity", back_populates="username")
     body: Mapped[List[Body]] = relationship(
         "Body", back_populates="username")
-    heartrate: Mapped[List[Heartrate]] = relationship(
-        "Heartrate", back_populates="username")
+    heart_rate: Mapped[List[HeartRate]] = relationship(
+        "HeartRate", back_populates="username")
     sport: Mapped[List[Sport]] = relationship(
         "Sport", back_populates="username")
 
@@ -54,7 +47,7 @@ class User(Base):
                 f"configurations = {len(self.configurations)}, "
                 f"activities = {len(self.activities)}, "
                 f"body = {len(self.body)}, "
-                f"heartrate = {len(self.heartrate)}, "
+                f"heart_rate = {len(self.heart_rate)}, "
                 f"sport = {len(self.sport)}, "
                 f"gen_date = {self.gen_date}>")
 

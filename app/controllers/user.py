@@ -1,6 +1,6 @@
 """Webhook controller."""
 from app.controllers.controller import Controller
-from app.models.user import User as UserModel
+from app.models import User as UserModel
 
 
 class User(Controller):

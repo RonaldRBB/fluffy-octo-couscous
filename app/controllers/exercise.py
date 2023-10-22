@@ -1,6 +1,6 @@
 """Exercises controller."""
 from app.controllers.controller import Controller
-from app.models.exercise import Exercise as ExerciseModel
+from app.models import Exercise as ExerciseModel
 
 
 class Exercise(Controller):

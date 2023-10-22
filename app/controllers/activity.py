@@ -1,6 +1,6 @@
 """Activity controller."""
 from app.controllers.controller import Controller
-from app.models.activity import Activity as ActivityModel
+from app.models import Activity as ActivityModel
 
 
 class Activity(Controller):

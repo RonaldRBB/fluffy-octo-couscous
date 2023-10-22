@@ -1,4 +1,4 @@
-"""Heartrate model."""
+"""heart rate model."""
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Integer
@@ -7,10 +7,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from config import DB_PREFIX, Base
 
 
-class Heartrate(Base):
-    """Heartrate model."""
-    # date,user_id,heartRate
-    __tablename__ = f"{DB_PREFIX}_heartrates"
+class HeartRate(Base):
+    """heart rate model."""
+    __tablename__ = f"{DB_PREFIX}_heart_rates"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
@@ -18,13 +17,13 @@ class Heartrate(Base):
         "date", DateTime, default=datetime.utcnow)
     _heart_rate: Mapped[int] = mapped_column(
         "heart_rate", Integer, nullable=False)
-    username: Mapped["User"] = relationship("User", back_populates="heartrate")
+    username: Mapped["User"] = relationship("User", back_populates="heart_rate")
 
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
                 f"date = {self.date}, "
-                f"heartRate = {self.heart_rate}, "
+                f"heart_rate = {self.heart_rate}, "
                 f"user_id = {self.user_id}, "
                 f"user = {self.username}>")
 
@@ -48,7 +47,7 @@ class Heartrate(Base):
 
     @property
     def heart_rate(self) -> int:
-        """HeartRate."""
+        """heart_rate."""
         return self._heart_rate
 
     @heart_rate.setter

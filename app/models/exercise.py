@@ -4,7 +4,6 @@ from typing import List
 from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-# from app.models.sport import Sport
 from config import DB_PREFIX, Base
 
 
