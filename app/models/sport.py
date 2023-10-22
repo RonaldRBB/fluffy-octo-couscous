@@ -27,7 +27,7 @@ class Sport(Base):
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
     exercise: Mapped[Exercise] = relationship(
         "Exercise", back_populates="sport")
-    username: Mapped["User"] = relationship("User", back_populates="sport")
+    user: Mapped["User"] = relationship("User", back_populates="sport")
 
     def __str__(self):
         return (
@@ -42,7 +42,7 @@ class Sport(Base):
             f"calories = {self.calories}, "
             f"exercise = {self.exercise}, "
             f"user_id = {self.user_id}, "
-            f"user = {self.username}>"
+            f"user = {self.user}>"
         )
 
     @property

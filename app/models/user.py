@@ -24,17 +24,17 @@ class User(Base):
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
     configurations: Mapped[List[Configuration]] = relationship(
-        "Configuration", back_populates="username")
+        "Configuration", back_populates="user")
     user_health: Mapped[List[UserHealth]] = relationship(
         "UserHealth", back_populates="user")
     activities: Mapped[List[Activity]] = relationship(
-        "Activity", back_populates="username")
+        "Activity", back_populates="user")
     body: Mapped[List[Body]] = relationship(
-        "Body", back_populates="username")
+        "Body", back_populates="user")
     heart_rate: Mapped[List[HeartRate]] = relationship(
-        "HeartRate", back_populates="username")
+        "HeartRate", back_populates="user")
     sport: Mapped[List[Sport]] = relationship(
-        "Sport", back_populates="username")
+        "Sport", back_populates="user")
 
     def __str__(self):
         """String representation of the model."""

@@ -17,7 +17,8 @@ class HeartRate(Base):
         "date", DateTime, default=datetime.utcnow)
     _heart_rate: Mapped[int] = mapped_column(
         "heart_rate", Integer, nullable=False)
-    username: Mapped["User"] = relationship("User", back_populates="heart_rate")
+    user: Mapped["User"] = relationship(
+        "User", back_populates="heart_rate")
 
     def __str__(self):
         """String representation of the model."""
@@ -25,7 +26,19 @@ class HeartRate(Base):
                 f"date = {self.date}, "
                 f"heart_rate = {self.heart_rate}, "
                 f"user_id = {self.user_id}, "
-                f"user = {self.username}>")
+                f"user = {self.user}>")
+
+    def get_dict(self, with_relation=True):
+        """Get dictionary representation of the model."""
+        data = {
+            "id": self.id,
+            "date": self.date,
+            "heart_rate": self.heart_rate,
+            "user_id": self.user_id,
+        }
+        if with_relation:
+            data["user"] = self.user.get_dict()
+        return data
 
     @property
     def user_id(self) -> int:

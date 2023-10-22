@@ -16,7 +16,7 @@ class Body(Base):
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _weight: Mapped[float] = mapped_column("weight", Float, nullable=False)
-    username: Mapped["User"] = relationship("User", back_populates="body")
+    user: Mapped["User"] = relationship("User", back_populates="body")
 
     def __str__(self):
         """String representation of the model."""
@@ -24,7 +24,7 @@ class Body(Base):
                 f"date = {self.date}, "
                 f"weight = {self.weight}, "
                 f"user_id = {self.user_id}, "
-                f"user = {self.username}>")
+                f"user = {self.user}>")
 
     def get_dict(self, with_relation=True):
         """Get dictionary representation of the model."""
@@ -35,7 +35,7 @@ class Body(Base):
             "user_id": self.user_id
         }
         if with_relation:
-            data["user"] = self.username.get_dict()
+            data["user"] = self.user.get_dict()
         return data
 
     @property

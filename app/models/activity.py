@@ -20,7 +20,7 @@ class Activity(Base):
     _run_distance: Mapped[int] = mapped_column(
         "run_distance", Integer, nullable=False)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
-    username: Mapped["User"] = relationship(
+    user: Mapped["User"] = relationship(
         "User", back_populates="activities")
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Activity(Base):
                 f"runDistance = {self.run_distance}, "
                 f"calories = {self.calories}, "
                 f"user_id = {self.user_id}, "
-                f"user = {self.username}>")
+                f"user = {self.user}>")
 
     def get_dict(self, with_relation=True):
         """Get JSON representation of the model."""
@@ -46,7 +46,7 @@ class Activity(Base):
             "user_id": self.user_id
         }
         if with_relation:
-            data["user"] = self.username.get_dict()
+            data["user"] = self.user.get_dict()
         return data
 
     @property

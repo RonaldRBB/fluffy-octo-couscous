@@ -30,6 +30,18 @@ class UserHealth(Base):
                 f"user_id = {self.user_id}, "
                 f"user = {self.user}>")
 
+    def get_dict(self, with_relation=True):
+        """Get dictionary representation of the model."""
+        data = {
+            "id": self.id,
+            "gender": self.gender,
+            "height": self.height,
+            "user_id": self.user_id,
+        }
+        if with_relation:
+            data["user"] = self.user.get_dict()
+        return data
+
     @property
     def user_id(self) -> int:
         """User id."""

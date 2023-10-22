@@ -17,7 +17,7 @@ class Configuration(Base):
     _value: Mapped[str] = mapped_column("value", JSON, nullable=False)
     _gen_date: Mapped[datetime] = mapped_column(
         "gen_date", DateTime, default=datetime.utcnow)
-    username: Mapped["User"] = relationship(
+    user: Mapped["User"] = relationship(
         "User", back_populates="configurations")
 
     def __str__(self):
@@ -26,7 +26,7 @@ class Configuration(Base):
                 f"name = {self.name}, "
                 f"value = {self.value}, "
                 f"user_id = {self.user_id}, "
-                f"user = {self.username}>")
+                f"user = {self.user}>")
 
     @property
     def user_id(self) -> int:
