@@ -90,9 +90,9 @@ class Controller:
         """Delete"""
         try:
             data = session.query(self.model).filter_by(id=oid).first()
-            json_data = data.get_dict()
             if not data:
                 return self.handle_response("not_exist")
+            json_data = data.get_dict()
             session.delete(data)
             session.commit()
             return self.handle_response("deleted", json_data)

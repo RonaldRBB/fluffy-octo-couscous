@@ -9,7 +9,7 @@ from config import DB_PREFIX, Base
 
 class Body(Base):
     """Body model."""
-    __tablename__ = f"{DB_PREFIX}_bodys"
+    __tablename__ = f"{DB_PREFIX}_bodies"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
@@ -23,9 +23,20 @@ class Body(Base):
         return (f"<id = {self.id}, "
                 f"date = {self.date}, "
                 f"weight = {self.weight}, "
-                f"height = {self.height}, "
                 f"user_id = {self.user_id}, "
                 f"user = {self.username}>")
+
+    def get_dict(self, with_user=True):
+        """Get dictionary representation of the model."""
+        data = {
+            "id": self.id,
+            "date": self.date,
+            "weight": self.weight,
+            "user_id": self.user_id
+        }
+        if with_user:
+            data["user"] = self.username.get_dict()
+        return data
 
     @property
     def user_id(self) -> int:
@@ -46,7 +57,7 @@ class Body(Base):
         self._date = value
 
     @property
-    def weight(self) -> int:
+    def weight(self) -> float:
         """Weight."""
         return self._weight
 
