@@ -116,7 +116,7 @@ class Controller:
         if model is None:
             model = self.model()
         for param in self.model_params:
-            if param in ["date", "start_time"] and data[param] is not None:
+            if param in ["date", "start_time", "birth_date"] and data[param] is not None:
                 setattr(model, param, datetime.strptime(
                     data[param], '%Y-%m-%d %H:%M:%S'))
             else:

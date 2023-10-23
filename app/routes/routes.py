@@ -2,7 +2,7 @@
 # import requests
 from flask import jsonify
 
-from app.controllers import Activity, Body, Exercise, User, HeartRate, Sport
+from app.controllers import Activity, Body, Exercise, User, HeartRate, Sport, UserHealth
 
 def setup_routes(app):
     """Set routes."""
@@ -44,7 +44,12 @@ def setup_routes(app):
     app.add_url_rule("/sport/<int:oid>", "get_sport", Sport().get, methods=["GET"])
     app.add_url_rule("/sport/<int:oid>", "update_sport", Sport().update, methods=["PUT"])
     app.add_url_rule("/sport/<int:oid>", "delete_sport", Sport().delete, methods=["DELETE"])
-
+    #User Health
+    app.add_url_rule("/user_healths", "get_user_healths", UserHealth().get_all, methods=["GET"])
+    app.add_url_rule("/user_health", "create_user_health", UserHealth().create, methods=["POST"])
+    app.add_url_rule("/user_health/<int:oid>", "get_user_health", UserHealth().get, methods=["GET"])
+    app.add_url_rule("/user_health/<int:oid>", "update_user_health", UserHealth().update, methods=["PUT"])
+    app.add_url_rule("/user_health/<int:oid>", "delete_user_health", UserHealth().delete, methods=["DELETE"])
     return app
 
 
