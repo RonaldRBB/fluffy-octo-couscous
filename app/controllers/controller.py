@@ -16,6 +16,7 @@ class Controller:
     def create(self):
         """Create"""
         request_data = request.get_json()
+        print("request_data:", request_data)
         if self.validate(request_data) is False:
             return self.handle_response("incomplete_data")
         try:
@@ -115,7 +116,7 @@ class Controller:
         if model is None:
             model = self.model()
         for param in self.model_params:
-            if param == "date" and data[param] is not None:
+            if param in ["date", "start_time"] and data[param] is not None:
                 setattr(model, param, datetime.strptime(
                     data[param], '%Y-%m-%d %H:%M:%S'))
             else:

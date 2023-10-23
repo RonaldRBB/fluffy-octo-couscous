@@ -45,6 +45,25 @@ class Sport(Base):
             f"user = {self.user}>"
         )
 
+    def get_dict(self, with_relation=True):
+        data = {
+            "id": self.id,
+            "user_id": self.user_id,
+            "type_id": self.type_id,
+            "start_time": self.start_time,
+            "sport_time": self.sport_time,
+            "max_pace": self.max_pace,
+            "min_pace": self.min_pace,
+            "avg_pace": self.avg_pace,
+            "distance": self.distance,
+            "calories": self.calories,
+        }
+        if with_relation:
+            data["exercise"]: self.exercise.get_dict(
+                with_relation=with_relation)
+            data["user"] = self.user.get_dict()
+        return data
+
     @property
     def user_id(self) -> int:
         """User id."""
