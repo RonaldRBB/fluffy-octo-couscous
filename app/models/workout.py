@@ -1,4 +1,4 @@
-"""Exercises model."""
+"""Workouts model."""
 from typing import List
 
 from sqlalchemy import String, Text
@@ -7,14 +7,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from config import DB_PREFIX, Base
 
 
-class Exercise(Base):
-    """Exercises model."""
-    __tablename__ = f"{DB_PREFIX}_exercises"
+class Workout(Base):
+    """Workouts model."""
+    __tablename__ = f"{DB_PREFIX}_workouts"
     id: Mapped[int] = mapped_column(primary_key=True)
     _name: Mapped[str] = mapped_column("name", String(30), nullable=False)
     _description: Mapped[str] = mapped_column("description", Text)
     sport: Mapped[List["Sport"]] = relationship(
-        "Sport", back_populates="exercise")
+        "Sport", back_populates="workout")
 
     def __str__(self):
         return (f"<id = {self.id}, "
@@ -23,6 +23,7 @@ class Exercise(Base):
                 f"sport = {self.sport}>")
 
     def get_dict(self, with_relation=False):
+        """JSON representation of the model."""
         data = {
             "id": self.id,
             "name": self.name,

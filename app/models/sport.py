@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, Float, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models import Exercise
+from app.models import Workout
 from config import DB_PREFIX, Base
 
 
@@ -15,7 +15,7 @@ class Sport(Base):
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _type_id: Mapped[int] = mapped_column("type_id", ForeignKey(
-        f"{DB_PREFIX}_exercises.id"))
+        f"{DB_PREFIX}_workouts.id"))
     _start_time: Mapped[datetime] = mapped_column(
         "start_time", DateTime, default=datetime.utcnow)
     _sport_time: Mapped[int] = mapped_column(
@@ -25,8 +25,8 @@ class Sport(Base):
     _avg_pace: Mapped[float] = mapped_column("avg_pace", Float)
     _distance: Mapped[float] = mapped_column("distance", Float)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
-    exercise: Mapped[Exercise] = relationship(
-        "Exercise", back_populates="sport")
+    workout: Mapped[Workout] = relationship(
+        "Workout", back_populates="sport")
     user: Mapped["User"] = relationship("User", back_populates="sport")
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Sport(Base):
             f"avg_pace = {self.avg_pace}, "
             f"distance = {self.distance}, "
             f"calories = {self.calories}, "
-            f"exercise = {self.exercise}, "
+            f"workout = {self.workout}, "
             f"user_id = {self.user_id}, "
             f"user = {self.user}>"
         )
@@ -59,7 +59,7 @@ class Sport(Base):
             "calories": self.calories,
         }
         if with_relation:
-            data["exercise"]: self.exercise.get_dict(
+            data["workout"]: self.workout.get_dict(
                 with_relation=with_relation)
             data["user"] = self.user.get_dict()
         return data
