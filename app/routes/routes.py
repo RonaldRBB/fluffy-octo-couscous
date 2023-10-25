@@ -2,7 +2,7 @@
 # import requests
 from flask import jsonify
 
-from app.controllers import Activity, Body, Workout, User, HeartRate, Sport, UserHealth
+from app.controllers import Activity, Body, Workout, User, HeartRate, Session, UserHealth
 
 def setup_routes(app):
     """Set routes."""
@@ -38,12 +38,12 @@ def setup_routes(app):
     app.add_url_rule("/heart_rate/<int:oid>", "get_heart_rate", HeartRate().get, methods=["GET"])
     app.add_url_rule("/heart_rate/<int:oid>", "update_heart_rate", HeartRate().update, methods=["PUT"])
     app.add_url_rule("/heart_rate/<int:oid>", "delete_heart_rate", HeartRate().delete, methods=["DELETE"])
-    #Sport
-    app.add_url_rule("/sports", "get_sports", Sport().get_all, methods=["GET"])
-    app.add_url_rule("/sport", "create_sport", Sport().create, methods=["POST"])
-    app.add_url_rule("/sport/<int:oid>", "get_sport", Sport().get, methods=["GET"])
-    app.add_url_rule("/sport/<int:oid>", "update_sport", Sport().update, methods=["PUT"])
-    app.add_url_rule("/sport/<int:oid>", "delete_sport", Sport().delete, methods=["DELETE"])
+    #Session
+    app.add_url_rule("/sessions", "get_sessions", Session().get_all, methods=["GET"])
+    app.add_url_rule("/session", "create_session", Session().create, methods=["POST"])
+    app.add_url_rule("/session/<int:oid>", "get_session", Session().get, methods=["GET"])
+    app.add_url_rule("/session/<int:oid>", "update_session", Session().update, methods=["PUT"])
+    app.add_url_rule("/session/<int:oid>", "delete_session", Session().delete, methods=["DELETE"])
     #User Health
     app.add_url_rule("/user_healths", "get_user_healths", UserHealth().get_all, methods=["GET"])
     app.add_url_rule("/user_health", "create_user_health", UserHealth().create, methods=["POST"])

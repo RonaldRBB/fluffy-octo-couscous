@@ -13,14 +13,14 @@ class Workout(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _name: Mapped[str] = mapped_column("name", String(30), nullable=False)
     _description: Mapped[str] = mapped_column("description", Text)
-    sport: Mapped[List["Sport"]] = relationship(
-        "Sport", back_populates="workout")
+    session: Mapped[List["Session"]] = relationship(
+        "Session", back_populates="workout")
 
     def __str__(self):
         return (f"<id = {self.id}, "
                 f"name = {self.name}, "
                 f"description = {self.description}, "
-                f"sport = {self.sport}>")
+                f"session = {self.session}>")
 
     def get_dict(self, with_relation=False):
         """JSON representation of the model."""
@@ -30,7 +30,7 @@ class Workout(Base):
             "description": self.description,
         }
         if with_relation:
-            data["sport"] = [sport.get_dict() for sport in self.sport]
+            data["session"] = [session.get_dict() for session in self.session]
         return data
 
     @property

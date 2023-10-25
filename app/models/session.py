@@ -1,4 +1,4 @@
-"""Sport model."""
+"""Session model."""
 from datetime import datetime
 
 from sqlalchemy import DateTime, Float, ForeignKey, Integer
@@ -8,9 +8,9 @@ from app.models import Workout
 from config import DB_PREFIX, Base
 
 
-class Sport(Base):
-    """Sport model."""
-    __tablename__ = f"{DB_PREFIX}_sports"
+class Session(Base):
+    """Session model."""
+    __tablename__ = f"{DB_PREFIX}_sessions"
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
@@ -18,23 +18,23 @@ class Sport(Base):
         f"{DB_PREFIX}_workouts.id"))
     _start_time: Mapped[datetime] = mapped_column(
         "start_time", DateTime, default=datetime.utcnow)
-    _sport_time: Mapped[int] = mapped_column(
-        "sport_time", Integer, nullable=False)
+    _session_time: Mapped[int] = mapped_column(
+        "session_time", Integer, nullable=False)
     _max_pace: Mapped[float] = mapped_column("max_pace", Float)
     _min_pace: Mapped[float] = mapped_column("min_pace", Float)
     _avg_pace: Mapped[float] = mapped_column("avg_pace", Float)
     _distance: Mapped[float] = mapped_column("distance", Float)
     _calories: Mapped[int] = mapped_column("calories", Integer, nullable=False)
     workout: Mapped[Workout] = relationship(
-        "Workout", back_populates="sport")
-    user: Mapped["User"] = relationship("User", back_populates="sport")
+        "Workout", back_populates="session")
+    user: Mapped["User"] = relationship("User", back_populates="session")
 
     def __str__(self):
         return (
             f"<id = {self.id}, "
             f"type = {self.type_id}, "
             f"start_time = {self.start_time}, "
-            f"sport_time = {self.sport_time}, "
+            f"session_time = {self.session_time}, "
             f"max_pace = {self.max_pace}, "
             f"min_pace = {self.min_pace}, "
             f"avg_pace = {self.avg_pace}, "
@@ -51,7 +51,7 @@ class Sport(Base):
             "user_id": self.user_id,
             "type_id": self.type_id,
             "start_time": self.start_time,
-            "sport_time": self.sport_time,
+            "session_time": self.session_time,
             "max_pace": self.max_pace,
             "min_pace": self.min_pace,
             "avg_pace": self.avg_pace,
@@ -92,13 +92,13 @@ class Sport(Base):
         self._start_time = value
 
     @property
-    def sport_time(self) -> int:
-        """Sport time."""
-        return self._sport_time
+    def session_time(self) -> int:
+        """Session time."""
+        return self._session_time
 
-    @sport_time.setter
-    def sport_time(self, value: int) -> None:
-        self._sport_time = value
+    @session_time.setter
+    def session_time(self, value: int) -> None:
+        self._session_time = value
 
     @property
     def max_pace(self) -> float:

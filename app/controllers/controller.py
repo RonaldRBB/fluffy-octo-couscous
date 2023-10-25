@@ -16,7 +16,7 @@ class Controller:
     def create(self):
         """Create"""
         request_data = request.get_json()
-        print("request_data:", request_data)
+        print(" * request_data:", request_data)
         if self.validate(request_data) is False:
             return self.handle_response("incomplete_data")
         try:
@@ -26,6 +26,7 @@ class Controller:
             return self.handle_response("created", data.get_dict())
         except IntegrityError as error:
             session.rollback()
+            print(f" * {error}")
             if "Duplicate entry" in str(error):
                 return self.handle_response("exists")
             elif "Cannot add or update a child row" in str(error):
@@ -33,7 +34,7 @@ class Controller:
             return self.handle_response("error")
         except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            print(error)
+            print(f" * {error}")
             return self.handle_response("error")
 
     def get(self, oid):
@@ -45,7 +46,7 @@ class Controller:
             return self.handle_response("found", data.get_dict())
         except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            print(error)
+            print(f" * {error}")
             return self.handle_response("error")
 
     def get_all(self):
@@ -60,7 +61,7 @@ class Controller:
             return self.handle_response("found_all", array_data)
         except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            print(error)
+            print(f" * {error}")
             return self.handle_response("error")
 
     def update(self, oid):
@@ -77,6 +78,7 @@ class Controller:
             return self.handle_response("updated", data.get_dict())
         except IntegrityError as error:
             session.rollback()
+            print(f" * {error}")
             if "Duplicate entry" in str(error):
                 return self.handle_response("exists")
             elif "Cannot add or update a child row" in str(error):
@@ -84,7 +86,7 @@ class Controller:
             return self.handle_response("error")
         except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            print(error)
+            print(f" * {error}")
             return self.handle_response("error")
 
     def delete(self, oid):
@@ -99,7 +101,7 @@ class Controller:
             return self.handle_response("deleted", json_data)
         except Exception as error:  # pylint: disable=W0703
             session.rollback()
-            print(error)
+            print(f" * {error}")
             return self.handle_response("error")
 
     def validate(self, data):

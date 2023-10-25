@@ -26,7 +26,7 @@ engine: Engine = create_engine(
     f"{DB_PASSWORD}@"
     f"{DB_HOST}/"
     f"{DB_DATABASE}", echo=False)
-print("-" * 80)
+print("-" * 100)
 session = sessionmaker(engine)()
 # USER 1
 # -----------------------------------------------------------------------------

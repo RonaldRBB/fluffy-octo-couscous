@@ -5,7 +5,7 @@ from app.models.configuration import Configuration
 from app.models.workout import Workout
 from app.models.heart_rate import HeartRate
 from app.models.user_health import UserHealth
-from app.models.sport import Sport
+from app.models.session import Session
 from app.models.user import User
 
 __all__ = [
@@ -16,5 +16,5 @@ __all__ = [
     "HeartRate",
     "User",
     "UserHealth",
-    "Sport"
+    "Session"
 ]

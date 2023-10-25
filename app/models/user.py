@@ -5,7 +5,7 @@ from typing import List
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models import Activity, Body, Configuration, HeartRate, Sport, UserHealth
+from app.models import Activity, Body, Configuration, HeartRate, Session, UserHealth
 from config import DB_PREFIX, Base
 
 
@@ -33,8 +33,8 @@ class User(Base):
         "Body", back_populates="user")
     heart_rate: Mapped[List[HeartRate]] = relationship(
         "HeartRate", back_populates="user")
-    sport: Mapped[List[Sport]] = relationship(
-        "Sport", back_populates="user")
+    session: Mapped[List[Session]] = relationship(
+        "Session", back_populates="user")
 
     def __str__(self):
         """String representation of the model."""
@@ -48,7 +48,7 @@ class User(Base):
                 f"activities = {len(self.activities)}, "
                 f"body = {len(self.body)}, "
                 f"heart_rate = {len(self.heart_rate)}, "
-                f"sport = {len(self.sport)}, "
+                f"session = {len(self.session)}, "
                 f"gen_date = {self.gen_date}>")
 
     def get_dict(self, with_relation=False):
