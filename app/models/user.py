@@ -5,7 +5,15 @@ from typing import List
 from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models import Activity, Body, Configuration, HeartRate, Session, UserHealth
+from app.models import (
+    Activity,
+    Body,
+    Configuration,
+    Exercise,
+    HeartRate,
+    Session,
+    UserHealth,
+)
 from config import DB_PREFIX, Base
 
 
@@ -35,6 +43,8 @@ class User(Base):
         "HeartRate", back_populates="user")
     session: Mapped[List[Session]] = relationship(
         "Session", back_populates="user")
+    exercises: Mapped[List[Exercise]] = relationship(
+        "Exercise", back_populates="user")
 
     def __str__(self):
         """String representation of the model."""

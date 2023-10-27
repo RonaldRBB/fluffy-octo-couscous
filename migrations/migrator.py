@@ -2,7 +2,17 @@
 import sqlalchemy
 from sqlalchemy import text
 
-from app.models import Activity, Body, Configuration, HeartRate, Session, User, UserHealth
+from app.models import (
+    Activity,
+    Body,
+    Configuration,
+    Exercise,
+    HeartRate,
+    Session,
+    User,
+    UserHealth,
+    Workout,
+)
 from config import (
     Base,
     engine,

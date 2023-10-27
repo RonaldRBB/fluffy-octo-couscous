@@ -1,8 +1,16 @@
 """Main."""
 # import requests
-from flask import jsonify
+from app.controllers import (
+    Activity,
+    Body,
+    Exercise,
+    HeartRate,
+    Session,
+    User,
+    UserHealth,
+    Workout,
+)
 
-from app.controllers import Activity, Body, Workout, User, HeartRate, Session, UserHealth
 
 def setup_routes(app):
     """Set routes."""
@@ -50,9 +58,15 @@ def setup_routes(app):
     app.add_url_rule("/user_health/<int:oid>", "get_user_health", UserHealth().get, methods=["GET"])
     app.add_url_rule("/user_health/<int:oid>", "update_user_health", UserHealth().update, methods=["PUT"])
     app.add_url_rule("/user_health/<int:oid>", "delete_user_health", UserHealth().delete, methods=["DELETE"])
+    #Exercise
+    app.add_url_rule("/exercises", "get_exercises", Exercise().get_all, methods=["GET"])
+    app.add_url_rule("/exercise", "create_exercise", Exercise().create, methods=["POST"])
+    app.add_url_rule("/exercise/<int:oid>", "get_exercise", Exercise().get, methods=["GET"])
+    app.add_url_rule("/exercise/<int:oid>", "update_exercise", Exercise().update, methods=["PUT"])
+    app.add_url_rule("/exercise/<int:oid>", "delete_exercise", Exercise().delete, methods=["DELETE"])
     return app
 
 
 def hello_world():
     """Hello world."""
-    return jsonify({"Hello World!"}), 200
+    return "Hello World!", 200
