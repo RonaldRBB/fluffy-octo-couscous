@@ -4,6 +4,7 @@ from app.controllers import (
     Activity,
     Body,
     Exercise,
+    ExerciseInfo,
     HeartRate,
     Session,
     User,
@@ -64,6 +65,12 @@ def setup_routes(app):
     app.add_url_rule("/exercise/<int:oid>", "get_exercise", Exercise().get, methods=["GET"])
     app.add_url_rule("/exercise/<int:oid>", "update_exercise", Exercise().update, methods=["PUT"])
     app.add_url_rule("/exercise/<int:oid>", "delete_exercise", Exercise().delete, methods=["DELETE"])
+    #Exercise Info
+    app.add_url_rule("/exercise_infos", "get_exercise_infos", ExerciseInfo().get_all, methods=["GET"])
+    app.add_url_rule("/exercise_info", "create_exercise_info", ExerciseInfo().create, methods=["POST"])
+    app.add_url_rule("/exercise_info/<int:oid>", "get_exercise_info", ExerciseInfo().get, methods=["GET"])
+    app.add_url_rule("/exercise_info/<int:oid>", "update_exercise_info", ExerciseInfo().update, methods=["PUT"])
+    app.add_url_rule("/exercise_info/<int:oid>", "delete_exercise_info", ExerciseInfo().delete, methods=["DELETE"])
     return app
 
 

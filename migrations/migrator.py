@@ -7,6 +7,7 @@ from app.models import (
     Body,
     Configuration,
     Exercise,
+    ExerciseInfo,
     HeartRate,
     Session,
     User,

@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from app.models.exercise_info import ExerciseInfo
 from config import DB_PREFIX, Base
 
 
@@ -13,13 +13,16 @@ class Exercise(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
-    _sessoin_id: Mapped[int] = mapped_column(
-        "session_id", ForeignKey(f"{DB_PREFIX}_sessions.id"))
+    _exercise_info_id: Mapped[int] = mapped_column(
+        "exercise_info_id", ForeignKey(f"{DB_PREFIX}_exercises_info.id"))
     _date: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _set: Mapped[int] = mapped_column("set", Integer, nullable=False)
     _reps: Mapped[int] = mapped_column("reps", Integer, nullable=False)
     _weight: Mapped[int] = mapped_column("weight", Integer, nullable=False)
+    info: Mapped[ExerciseInfo] = relationship(
+        "ExerciseInfo", back_populates="exercise"
+    )
     user: Mapped["User"] = relationship("User", back_populates="exercises")
 
     def __str__(self):
@@ -56,13 +59,13 @@ class Exercise(Base):
         self._user_id = value
 
     @property
-    def session_id(self) -> int:
-        """Session id."""
-        return self._sessoin_id
+    def exercise_info_id(self) -> int:
+        """Exercise info id."""
+        return self._exercise_info_id
 
-    @session_id.setter
-    def session_id(self, value: int) -> None:
-        self._sessoin_id = value
+    @exercise_info_id.setter
+    def exercise_info_id(self, value: int) -> None:
+        self._exercise_info_id = value
 
     @property
     def date(self) -> datetime:
