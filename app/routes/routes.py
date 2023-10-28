@@ -1,5 +1,7 @@
 """Main."""
 # import requests
+from flask import request
+
 from app.controllers import (
     Activity,
     Body,
@@ -11,6 +13,7 @@ from app.controllers import (
     UserHealth,
     Workout,
 )
+from config import DOWNLOAD_PATH
 
 
 def setup_routes(app):
@@ -71,9 +74,19 @@ def setup_routes(app):
     app.add_url_rule("/exercise_info/<int:oid>", "get_exercise_info", ExerciseInfo().get, methods=["GET"])
     app.add_url_rule("/exercise_info/<int:oid>", "update_exercise_info", ExerciseInfo().update, methods=["PUT"])
     app.add_url_rule("/exercise_info/<int:oid>", "delete_exercise_info", ExerciseInfo().delete, methods=["DELETE"])
+    # receive file post
+    app.add_url_rule("/receive_file", "receive_file", receive_file, methods=["POST"])
     return app
 
 
 def hello_world():
     """Hello world."""
     return "Hello World!", 200
+
+
+def receive_file():
+    """Receive file."""
+    uploaded_file=request.files['file']
+    download_path=f"{DOWNLOAD_PATH}{uploaded_file.filename}"
+    uploaded_file.save(download_path)
+    return "File received", 200

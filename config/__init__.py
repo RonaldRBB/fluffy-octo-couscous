@@ -9,9 +9,10 @@ from sqlalchemy.orm.session import sessionmaker
 APP_HOST = config("APP_HOST")
 APP_PORT = config("APP_PORT")
 APP_DEBUG = config("APP_DEBUG")
-DB_CONNECTION = config("DB_CONNECTION")
+DOWNLOAD_PATH = config("DOWNLOAD_PATH")
 # DB
 # -----------------------------------------------------------------------------
+DB_CONNECTION = config("DB_CONNECTION")
 DB_HOST = config("DB_HOST")
 DB_PORT = config("DB_PORT")
 DB_DATABASE = config("DB_DATABASE")
