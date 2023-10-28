@@ -14,7 +14,7 @@ class Activity(Base):
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _date: Mapped[datetime] = mapped_column(
-        "date", DateTime, default=datetime.utcnow)
+        "date", DateTime, default=datetime.utcnow, nullable=False, unique=True)
     _steps: Mapped[int] = mapped_column("steps", Integer, nullable=False)
     _distance: Mapped[int] = mapped_column("distance", Integer, nullable=False)
     _run_distance: Mapped[int] = mapped_column(

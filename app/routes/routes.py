@@ -28,6 +28,7 @@ def setup_routes(app):
     app.add_url_rule("/user/<int:oid>", "delete_user", User().delete, methods=["DELETE"])
     # Activity
     app.add_url_rule("/activities", "get_activities", Activity().get_all, methods=["GET"])
+    app.add_url_rule("/activities", "create_activities", Activity().store_file_data, methods=["POST"])
     app.add_url_rule("/activity", "create_activity", Activity().create, methods=["POST"])
     app.add_url_rule("/activity/<int:oid>", "get_activity", Activity().get, methods=["GET"])
     app.add_url_rule("/activity/<int:oid>", "update_activity", Activity().update, methods=["PUT"])

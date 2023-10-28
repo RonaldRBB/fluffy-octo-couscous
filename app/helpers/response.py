@@ -10,7 +10,7 @@ class ApiResponse:
 
     @property
     def success(self):
-        """Success"""
+        """success"""
         return self._success
 
     @success.setter

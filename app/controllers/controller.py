@@ -1,6 +1,8 @@
 """Abstract class controller"""
+import io
 from datetime import datetime
 
+import pandas as pd
 from flask import jsonify, request
 from sqlalchemy.exc import IntegrityError
 
@@ -11,7 +13,8 @@ from config import session
 class Controller:
     """Abstract class controller."""
     model = None
-    model_params = None
+    model_params = []
+    data_conversion = {}
 
     def create(self):
         """Create"""
@@ -104,6 +107,23 @@ class Controller:
             print(f" * {error}")
             return self.handle_response("error")
 
+    def store_file_data(self):
+        """Store file data."""
+        user_id = request.form.get("user_id")
+        uploaded_file = request.files["file"]
+        print(uploaded_file)
+        data = uploaded_file.read()
+        data = pd.read_csv(io.BytesIO(data))
+        for row in data.itertuples():
+            model = self.model()
+            model.user_id = user_id
+            print(f" * {row}")
+            for key, data_conversion_key in self.data_conversion.items():
+                setattr(model, data_conversion_key, getattr(row, key))
+            session.add(model)
+        session.commit()
+        return self.handle_response("file received")
+
     def validate(self, data):
         """Validate data."""
         if data is None:
@@ -129,7 +149,7 @@ class Controller:
         """Handle response."""
         response = ApiResponse()
         message = self.get_message_and_code(code)
-        response.success = message["succes"]
+        response.success = message["success"]
         response.message = message["message"]
         if data is not None:
             response.data = data
@@ -140,61 +160,67 @@ class Controller:
         message = {
             "incomplete_data":
             {
-                "succes": False,
+                "success": False,
                 "message": "Incomplete data",
                 "http_code": 400
             },
             "created":
             {
-                "succes": True,
+                "success": True,
                 "message": f"{self.__class__.__name__}(s) created",
                 "http_code": 201
             },
             "found":
             {
-                "succes": True,
+                "success": True,
                 "message": f"{self.__class__.__name__}(s) found",
                 "http_code": 200
             },
             "exists":
             {
-                "succes": False,
+                "success": False,
                 "message": f"{self.__class__.__name__}(s) already exists",
                 "http_code": 400
             },
             "not_exist":
             {
-                "succes": False,
+                "success": False,
                 "message": f"{self.__class__.__name__}(s) does not exist",
                 "http_code": 404
             },
             "updated":
             {
-                "succes": True,
+                "success": True,
                 "message": f"{self.__class__.__name__}(s) updated",
                 "http_code": 200
             },
             "deleted":
             {
-                "succes": True,
+                "success": True,
                 "message": f"{self.__class__.__name__}(s) deleted",
                 "http_code": 200
             },
             "found_all":
             {
-                "succes": True,
+                "success": True,
                 "message": f"{self.__class__.__name__}(s) found",
+                "http_code": 200
+            },
+            "file received":
+            {
+                "success": True,
+                "message": "File received",
                 "http_code": 200
             },
             "error":
             {
-                "succes": False,
+                "success": False,
                 "message": "Oops! Something happened",
                 "http_code": 500
             },
             "foreign_key":
             {
-                "succes": False,
+                "success": False,
                 "message": "Foreign key does not exist",
                 "http_code": 400
             }
