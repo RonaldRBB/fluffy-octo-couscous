@@ -13,6 +13,6 @@ class Activity(Controller):
         "date": "date",
         "steps": "steps",
         "distance": "distance",
-        "runDistance": "run_distance",
+        "run_distance": "runDistance",
         "calories": "calories"
     }

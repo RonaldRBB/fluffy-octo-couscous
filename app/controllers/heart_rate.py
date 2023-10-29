@@ -7,3 +7,7 @@ class HeartRate(Controller):
     """Hart Rate Controller"""
     model = HeartRateModel
     model_params = ["user_id", "date", "heart_rate"]
+    data_conversion = {
+        "datetime": ["date", "time"],
+        "heart_rate": "heartRate"
+    }

@@ -8,6 +8,6 @@ class Body(Controller):
     model = BodyModel
     model_params = ["user_id", "date", "weight"]
     data_conversion = {
-        "time": "date",
+        "date": "time",
         "weight": "weight"
     }

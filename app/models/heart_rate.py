@@ -13,8 +13,8 @@ class HeartRate(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
-    _date: Mapped[datetime] = mapped_column(
-        "date", DateTime, default=datetime.utcnow)
+    _datetime: Mapped[datetime] = mapped_column(
+        "datetime", DateTime, default=datetime.utcnow)
     _heart_rate: Mapped[int] = mapped_column(
         "heart_rate", Integer, nullable=False)
     user: Mapped["User"] = relationship(
@@ -23,7 +23,7 @@ class HeartRate(Base):
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
-                f"date = {self.date}, "
+                f"date = {self.datetime}, "
                 f"heart_rate = {self.heart_rate}, "
                 f"user_id = {self.user_id}, "
                 f"user = {self.user}>")
@@ -32,7 +32,7 @@ class HeartRate(Base):
         """Get dictionary representation of the model."""
         data = {
             "id": self.id,
-            "date": self.date,
+            "datetime": self.datetime,
             "heart_rate": self.heart_rate,
             "user_id": self.user_id,
         }
@@ -50,13 +50,13 @@ class HeartRate(Base):
         self._user_id = value
 
     @property
-    def date(self) -> datetime:
+    def datetime(self) -> datetime:
         """Date."""
-        return self._date
+        return self._datetime
 
-    @date.setter
-    def date(self, value: datetime) -> None:
-        self._date = value
+    @datetime.setter
+    def datetime(self, value: datetime) -> None:
+        self._datetime = value
 
     @property
     def heart_rate(self) -> int:

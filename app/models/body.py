@@ -13,15 +13,15 @@ class Body(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
-    _date: Mapped[datetime] = mapped_column(
-        "date", DateTime, default=datetime.utcnow)
+    _datetime: Mapped[datetime] = mapped_column(
+        "datetime", DateTime, default=datetime.utcnow)
     _weight: Mapped[float] = mapped_column("weight", Float, nullable=False)
     user: Mapped["User"] = relationship("User", back_populates="body")
 
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
-                f"date = {self.date}, "
+                f"datetime = {self.datetime}, "
                 f"weight = {self.weight}, "
                 f"user_id = {self.user_id}, "
                 f"user = {self.user}>")
@@ -30,7 +30,7 @@ class Body(Base):
         """Get dictionary representation of the model."""
         data = {
             "id": self.id,
-            "date": self.date,
+            "datetime": self.datetime,
             "weight": self.weight,
             "user_id": self.user_id
         }
@@ -48,13 +48,13 @@ class Body(Base):
         self._user_id = value
 
     @property
-    def date(self) -> datetime:
+    def datetime(self) -> datetime:
         """Date."""
-        return self._date
+        return self._datetime
 
-    @date.setter
-    def date(self, value: datetime) -> None:
-        self._date = value
+    @datetime.setter
+    def datetime(self, value: datetime) -> None:
+        self._datetime = value
 
     @property
     def weight(self) -> float:

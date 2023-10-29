@@ -15,7 +15,7 @@ class Exercise(Base):
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
     _exercise_info_id: Mapped[int] = mapped_column(
         "exercise_info_id", ForeignKey(f"{DB_PREFIX}_exercises_info.id"))
-    _date: Mapped[datetime] = mapped_column(
+    _datetime: Mapped[datetime] = mapped_column(
         "date", DateTime, default=datetime.utcnow)
     _set: Mapped[int] = mapped_column("set", Integer, nullable=False)
     _reps: Mapped[int] = mapped_column("reps", Integer, nullable=False)
@@ -28,7 +28,7 @@ class Exercise(Base):
     def __str__(self):
         """String representation of the model."""
         return (f"<id = {self.id}, "
-                f"date = {self.date}, "
+                f"datetime = {self.datetime}, "
                 f"set = {self.set}, "
                 f"reps = {self.reps}, "
                 f"weight = {self.weight}, "
@@ -39,7 +39,7 @@ class Exercise(Base):
         """Get dictionary representation of the model."""
         data = {
             "id": self.id,
-            "date": self.date,
+            "datetime": self.datetime,
             "set": self.set,
             "reps": self.reps,
             "weight": self.weight,
@@ -68,13 +68,13 @@ class Exercise(Base):
         self._exercise_info_id = value
 
     @property
-    def date(self) -> datetime:
+    def datetime(self) -> datetime:
         """Date."""
-        return self._date
+        return self._datetime
 
-    @date.setter
-    def date(self, value: datetime) -> None:
-        self._date = value
+    @datetime.setter
+    def datetime(self, value: datetime) -> None:
+        self._datetime = value
 
     @property
     def set(self) -> int:

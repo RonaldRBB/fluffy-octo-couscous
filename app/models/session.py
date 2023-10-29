@@ -46,6 +46,7 @@ class Session(Base):
         )
 
     def get_dict(self, with_relation=True):
+        """Get dictionary representation of the model."""
         data = {
             "id": self.id,
             "user_id": self.user_id,
@@ -88,7 +89,9 @@ class Session(Base):
         return self._start_time
 
     @start_time.setter
-    def start_time(self, value: datetime) -> None:
+    def start_time(self, value: datetime | str) -> None:
+        if isinstance(value, str):
+            value = datetime.strptime(value, "%Y-%m-%d %H:%M:%S%z")
         self._start_time = value
 
     @property

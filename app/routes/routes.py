@@ -48,12 +48,14 @@ def setup_routes(app):
     app.add_url_rule("/workout/<int:oid>", "delete_workout", Workout().delete, methods=["DELETE"])
     # Hear Rate
     app.add_url_rule("/heart_rates", "get_heart_rates", HeartRate().get_all, methods=["GET"])
+    app.add_url_rule("/heart_rates", "create_heart_rates", HeartRate().store_file_data, methods=["POST"])
     app.add_url_rule("/heart_rate", "create_heart_rate", HeartRate().create, methods=["POST"])
     app.add_url_rule("/heart_rate/<int:oid>", "get_heart_rate", HeartRate().get, methods=["GET"])
     app.add_url_rule("/heart_rate/<int:oid>", "update_heart_rate", HeartRate().update, methods=["PUT"])
     app.add_url_rule("/heart_rate/<int:oid>", "delete_heart_rate", HeartRate().delete, methods=["DELETE"])
     #Session
     app.add_url_rule("/sessions", "get_sessions", Session().get_all, methods=["GET"])
+    app.add_url_rule("/sessions", "create_sessions", Session().store_file_data, methods=["POST"])
     app.add_url_rule("/session", "create_session", Session().create, methods=["POST"])
     app.add_url_rule("/session/<int:oid>", "get_session", Session().get, methods=["GET"])
     app.add_url_rule("/session/<int:oid>", "update_session", Session().update, methods=["PUT"])

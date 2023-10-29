@@ -122,7 +122,11 @@ class Controller:
                 model.user_id = user_id
                 print(f" * {row}")
                 for key, data_conversion_key in self.data_conversion.items():
-                    setattr(model, data_conversion_key, getattr(row, key))
+                    if isinstance(data_conversion_key, list):
+                        setattr(model, key, getattr(
+                            row, data_conversion_key[0]) + " " + getattr(row, data_conversion_key[1]))
+                    else:
+                        setattr(model, key, getattr(row, data_conversion_key))
                 session.add(model)
             session.commit()
         except IntegrityError as error:
