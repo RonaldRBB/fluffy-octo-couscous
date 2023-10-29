@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.helpers.response import ApiResponse
 from config import session
+from app.models import User
 
 
 class Controller:
@@ -110,18 +111,33 @@ class Controller:
     def store_file_data(self):
         """Store file data."""
         user_id = request.form.get("user_id")
+        user = session.query(User).filter_by(id=user_id).first()
+        if not user:
+            return self.handle_response("not_exist", class_name="User")
         uploaded_file = request.files["file"]
-        print(uploaded_file)
         data = uploaded_file.read()
         data = pd.read_csv(io.BytesIO(data))
-        for row in data.itertuples():
-            model = self.model()
-            model.user_id = user_id
-            print(f" * {row}")
-            for key, data_conversion_key in self.data_conversion.items():
-                setattr(model, data_conversion_key, getattr(row, key))
-            session.add(model)
-        session.commit()
+        try:
+            for row in data.itertuples():
+                model = self.model()
+                model.user_id = user_id
+                print(f" * {row}")
+                for key, data_conversion_key in self.data_conversion.items():
+                    setattr(model, data_conversion_key, getattr(row, key))
+                session.add(model)
+            session.commit()
+        except IntegrityError as error:
+            session.rollback()
+            print(f" * {error}")
+            if "Duplicate entry" in str(error):
+                return self.handle_response("exists")
+            elif "Cannot add or update a child row" in str(error):
+                return self.handle_response("foreign_key")
+            return self.handle_response("error")
+        except Exception as error:  # pylint: disable=W0703
+            session.rollback()
+            print(f" * {error}")
+            return self.handle_response("error")
         return self.handle_response("file received")
 
     def validate(self, data):
@@ -145,18 +161,20 @@ class Controller:
                 setattr(model, param, data[param])
         return model
 
-    def handle_response(self, code, data=None):
+    def handle_response(self, code, data=None, class_name=None):
         """Handle response."""
         response = ApiResponse()
-        message = self.get_message_and_code(code)
+        message = self.get_message_and_code(code, class_name)
         response.success = message["success"]
         response.message = message["message"]
         if data is not None:
             response.data = data
         return jsonify(response.serialize()), message["http_code"]
 
-    def get_message_and_code(self, code):
+    def get_message_and_code(self, code, class_name=None):
         """Get message."""
+        if class_name is None:
+            class_name = self.__class__.__name__
         message = {
             "incomplete_data":
             {
@@ -167,43 +185,43 @@ class Controller:
             "created":
             {
                 "success": True,
-                "message": f"{self.__class__.__name__}(s) created",
+                "message": f"{class_name}(s) created",
                 "http_code": 201
             },
             "found":
             {
                 "success": True,
-                "message": f"{self.__class__.__name__}(s) found",
+                "message": f"{class_name}(s) found",
                 "http_code": 200
             },
             "exists":
             {
                 "success": False,
-                "message": f"{self.__class__.__name__}(s) already exists",
+                "message": f"{class_name}(s) already exists",
                 "http_code": 400
             },
             "not_exist":
             {
                 "success": False,
-                "message": f"{self.__class__.__name__}(s) does not exist",
+                "message": f"{class_name}(s) does not exist",
                 "http_code": 404
             },
             "updated":
             {
                 "success": True,
-                "message": f"{self.__class__.__name__}(s) updated",
+                "message": f"{class_name}(s) updated",
                 "http_code": 200
             },
             "deleted":
             {
                 "success": True,
-                "message": f"{self.__class__.__name__}(s) deleted",
+                "message": f"{class_name}(s) deleted",
                 "http_code": 200
             },
             "found_all":
             {
                 "success": True,
-                "message": f"{self.__class__.__name__}(s) found",
+                "message": f"{class_name}(s) found",
                 "http_code": 200
             },
             "file received":
