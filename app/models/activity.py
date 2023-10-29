@@ -1,7 +1,7 @@
 """Activity model."""
-from datetime import datetime
+from datetime import date
 
-from sqlalchemy import DateTime, ForeignKey, Integer
+from sqlalchemy import Date, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from config import DB_PREFIX, Base
@@ -13,8 +13,8 @@ class Activity(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     _user_id: Mapped[int] = mapped_column(
         "user_id", ForeignKey(f"{DB_PREFIX}_users.id"))
-    _date: Mapped[datetime] = mapped_column(
-        "date", DateTime, default=datetime.utcnow, nullable=False, unique=True)
+    _date: Mapped[date] = mapped_column(
+        "date", Date, default=date.today, nullable=False, unique=True)
     _steps: Mapped[int] = mapped_column("steps", Integer, nullable=False)
     _distance: Mapped[int] = mapped_column("distance", Integer, nullable=False)
     _run_distance: Mapped[int] = mapped_column(
@@ -59,12 +59,12 @@ class Activity(Base):
         self._user_id = value
 
     @property
-    def date(self) -> datetime:
+    def date(self) -> date:
         """Date."""
         return self._date
 
     @date.setter
-    def date(self, value: datetime) -> None:
+    def date(self, value: date) -> None:
         self._date = value
 
     @property

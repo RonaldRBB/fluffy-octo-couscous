@@ -7,3 +7,7 @@ class Body(Controller):
     """Body controller."""
     model = BodyModel
     model_params = ["user_id", "date", "weight"]
+    data_conversion = {
+        "time": "date",
+        "weight": "weight"
+    }

@@ -35,6 +35,7 @@ def setup_routes(app):
     app.add_url_rule("/activity/<int:oid>", "delete_activity", Activity().delete, methods=["DELETE"])
     # Body
     app.add_url_rule("/bodies", "get_bodys", Body().get_all, methods=["GET"])
+    app.add_url_rule("/bodies", "create_bodys", Body().store_file_data, methods=["POST"])
     app.add_url_rule("/body", "create_body", Body().create, methods=["POST"])
     app.add_url_rule("/body/<int:oid>", "get_body", Body().get, methods=["GET"])
     app.add_url_rule("/body/<int:oid>", "update_body", Body().update, methods=["PUT"])

@@ -1,14 +1,13 @@
 """Abstract class controller"""
 import io
-from datetime import datetime
 
 import pandas as pd
 from flask import jsonify, request
 from sqlalchemy.exc import IntegrityError
 
 from app.helpers.response import ApiResponse
-from config import session
 from app.models import User
+from config import session
 
 
 class Controller:
@@ -154,11 +153,7 @@ class Controller:
         if model is None:
             model = self.model()
         for param in self.model_params:
-            if param in ["date", "start_time", "birth_date"] and data[param] is not None:
-                setattr(model, param, datetime.strptime(
-                    data[param], '%Y-%m-%d %H:%M:%S'))
-            else:
-                setattr(model, param, data[param])
+            setattr(model, param, data[param])
         return model
 
     def handle_response(self, code, data=None, class_name=None):
