@@ -53,6 +53,7 @@ def setup_routes(app):
     app.add_url_rule("/heart_rate/<int:oid>", "get_heart_rate", HeartRate().get, methods=["GET"])
     app.add_url_rule("/heart_rate/<int:oid>", "update_heart_rate", HeartRate().update, methods=["PUT"])
     app.add_url_rule("/heart_rate/<int:oid>", "delete_heart_rate", HeartRate().delete, methods=["DELETE"])
+    app.add_url_rule("/heart_rate/average", "get_average", HeartRate().get_average, methods=["GET"])
     #Session
     app.add_url_rule("/sessions", "get_sessions", Session().get_all, methods=["GET"])
     app.add_url_rule("/sessions", "create_sessions", Session().store_file_data, methods=["POST"])
